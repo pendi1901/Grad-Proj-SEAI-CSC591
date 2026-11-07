@@ -44,7 +44,7 @@ cover the ten skills once, asks 11–20 cover them again).
 
 ## 3. What runs now: domain 1's ladder (treatment 7, hand-built)
 
-- 20 tagged steps; `make test` runs 33 tests; `make askNN D=pom3a`
+- 20 tagged steps; `make test` runs 34 tests; `make askNN D=pom3a`
   runs any ask in one command. The same commands run on every
   other domain (`D=health|hr|nasa|readmit|commits`).
 - **New LOC per step** (`make loc`): step 1 = 167 (28%); steps 2–10 =

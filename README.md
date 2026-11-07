@@ -14,7 +14,7 @@ MOOT data sets. Does each new skill need less new code than the last?
 Needs Python 3.9+ and git. The first command clones MOOT into `./moot`.
 
 ```sh
-make test                 # 33 unit tests, ~40 s
+make test                 # 34 unit tests, ~40 s
 make ask07                # one ask, on pom3a (the default domain)
 make ask07 D=health       # other domains: D=pom3a|health|hr|nasa|readmit|commits
 make demo D=hr            # all twenty asks on one domain

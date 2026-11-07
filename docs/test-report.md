@@ -59,7 +59,7 @@ after that.
 |---|---|---|---|---|---|---|
 | 3: setting matters on all goals? | **3 real / 2 noise** | 5 real | 5 noise | 5 noise | 5 real | 5 real |
 | 13: setting moves one goal? | **3 real / 2 noise** | 5 noise | 5 noise | 5 real | **1 real / 4 noise** | 5 noise |
-| 10: chooser vs 50 random | random wins 5/5 | random 2, tie 3 | random 4, ours 1 | random wins 5/5 | tie 3, "random" 2* | random 2, tie 3 |
+| 10: chooser vs 50 random | random wins 5/5 | random 2, tie 3 | random 4, ours 1 | random wins 5/5 | tie 3, medians tie 2* | random 2, tie 3 |
 | 20: guesses vs the average | ours wins 2 of 3 goals, ties Idle, 5/5 | ours 5/5 | ours 3/5, ties 2/5 | ours 5/5 (one tie) | ours 5/5 | ours 5/5 |
 
 Median win for ask 7 over the 5 seeds (100 = best row of all, 0 = median row):
@@ -84,14 +84,14 @@ Median win for ask 7 over the 5 seeds (100 = best row of all, 0 = median row):
   Either raise `cap` or report the 5-seed tally.
 - **readmit's ask 13** is real at seed 1 only.
 
-\* **A reporting bug in ask 10:** when both medians hit the same
-value (readmit: 100 vs 100), but `same` still says the two
-distributions differ, the code prints "random really is better",
-because it breaks the tie on medians only. Those runs should print
-"different, but the medians tie". The same tie-breaker labels
-health's 99.6 vs 99.7 a win for random; that is real by `same`, but
-it's 0.1 points. Fix: compare means, or report both medians when they
-are within one point.
+\* **A reporting bug in ask 10 (fixed after `domains6`):** when both
+medians hit the same value (readmit: 100 vs 100), but `same` still
+said the two distributions differ, the code printed "random really is
+better", because it broke the tie on medians only. It now prints
+"different, but the medians tie", and names the higher mean (random,
+at both seeds). A unit test covers it (34 tests). Health's 99.6 vs
+99.7 still reads as a win for random at seeds 1–2: `same` calls it
+real, but it is 0.1 points, so call it a practical tie in the report.
 
 ## 4. NASA with a smaller budget (`--budget=20`)
 
@@ -132,7 +132,7 @@ intended behaviour.
 
 ## 6. Before Nov 9 / Nov 30
 
-1. Fix the ask-10 tie-breaker (a few lines; it would be a new commit, not a retag).
+1. ~~Fix the ask-10 tie-breaker~~ (done: a new commit after `domains6`, no retag).
 2. For any verdict quoted in the report, quote the 5-seed tally, not a single run.
 3. Tune the chooser before the LLM treatments: it loses everywhere, and uproj.md
    expects that ("When ezr loses"). Two things to try: compare its
