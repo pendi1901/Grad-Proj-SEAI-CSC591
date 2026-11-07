@@ -37,7 +37,8 @@ role, with manager).
 
 ## 2. Requirements (3 × 20 asks, awaiting the lecturer's OK)
 
-`docs/req-pom3a.md`, `docs/req-health.md`, `docs/req-hr.md`: twenty
+`docs/req-pom3a.md`, `docs/req-health.md`, `docs/req-hr.md` (plus
+extra domains `req-nasa.md`, `req-readmit.md`, `req-commits.md`): twenty
 asks each, in the client's words, each tagged with its skill (asks 1–10
 cover the ten skills once, asks 11–20 cover them again).
 
@@ -51,7 +52,12 @@ cover the ten skills once, asks 11–20 cover them again).
   (Cliff's δ 0.72), and still says so with step 1 left out (δ 0.69).
 - **Transfer so far:** domains 2 and 3 added **0 lines** to `ezl/`;
   each needed 2 lines of Makefile settings, plus the 3-line `drop`
-  option (written in step 1) to ignore HR's ID columns.
+  option (written in step 1) to ignore HR's ID columns. Three more
+  domains, added after step 20 (nasa93dem, hospital readmissions,
+  OSS commits), cost **10 new lines in `ezl/`** (1.7% of the ladder,
+  tag `domains6`). Those lines fixed a hang in the chooser on tiny
+  pools (NASA has 93 rows), read TRUE/FALSE cells, and shrank the
+  drift windows for small data.
 - **Early findings, kept as-is.** On all three domains the active
   learner (ask 7) **loses** to "measure 50 random rows and keep the
   best" (ask 10, `same`-certified). That is the "ezr loses at first"
