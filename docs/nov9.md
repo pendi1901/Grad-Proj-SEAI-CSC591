@@ -44,9 +44,9 @@ cover the ten skills once, asks 11–20 cover them again).
 
 ## 3. What runs now: domain 1's ladder (treatment 7, hand-built)
 
-- 20 tagged steps; `make test` runs 32 tests; `make askNN D=pom3a`
-  runs any ask in one command. The same commands run with `D=health`
-  and `D=hr`.
+- 20 tagged steps; `make test` runs 33 tests; `make askNN D=pom3a`
+  runs any ask in one command. The same commands run on every
+  other domain (`D=health|hr|nasa|readmit|commits`).
 - **New LOC per step** (`make loc`): step 1 = 167 (28%); steps 2–10 =
   14–58; steps 11–20 = 9–21. `same` says steps 11–20 < steps 1–10
   (Cliff's δ 0.72), and still says so with step 1 left out (δ 0.69).
@@ -58,9 +58,10 @@ cover the ten skills once, asks 11–20 cover them again).
   tag `domains6`). Those lines fixed a hang in the chooser on tiny
   pools (NASA has 93 rows), read TRUE/FALSE cells, and shrank the
   drift windows for small data.
-- **Early findings, kept as-is.** On all three domains the active
-  learner (ask 7) **loses** to "measure 50 random rows and keep the
-  best" (ask 10, `same`-certified). That is the "ezr loses at first"
+- **Early findings, kept as-is.** On five of the six domains the
+  active learner (ask 7) **loses** to "measure 50 random rows and
+  keep the best" (ask 10, `same`-certified); on readmissions both hit
+  the ceiling and tie. That is the "ezr loses at first"
   case; tuning comes next. In HR, `TotalWorkingYears` dominates the
   tenure trees, which is a likely leak.
 
