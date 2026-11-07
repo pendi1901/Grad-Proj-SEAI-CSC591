@@ -11,9 +11,11 @@ def acquire(d, rows, budget):
   while len(lab) < budget:
     pool = [r for r in random.sample(rows, len(rows)) if id(r) not in seen]
     if not pool: break
-    while len(pool) >= 2 * the["leaf"] and len(lab) < budget:
+    while len(lab) < budget:
       fresh = [r for r in pool if id(r) not in seen][:min(the["more"], budget - len(lab))]
+      if not fresh: break
       lab += fresh; seen |= {id(r) for r in fresh}
+      if len(pool) < 2 * the["leaf"]: break  # too small to cull; refill from the unlabelled
       near_best, _, _ = poles(d, lab)
       pool = sorted(pool, key=near_best)[:int(the["keepf"] * len(pool))]
   return sorted(lab, key=d.disty)

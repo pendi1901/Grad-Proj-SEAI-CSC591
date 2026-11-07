@@ -68,3 +68,14 @@ differ in size (1.5k–20k rows), in kind (simulation output vs
 hyperparameter logs vs people records), and in column types (all
 numeric vs mixed symbolic). Pure Python on the larger sets samples
 at most 1,024 rows per run (`cap`), recorded as a threat to validity.
+
+## Amendment (Nov 6, after step 20)
+
+Three more domains were added after the ladder was built: **nasa**
+(`process/nasa93dem.csv`), **readmit**
+(`health_data/Medical_Data_and_Hospital_Readmissions.csv`) and
+**commits** (`hpo/Health-Commits0000.csv`). Because they came after
+the code, they are a transfer test, not part of the pre-registration.
+The win conditions above apply to them unchanged. Any code they force
+into `ezl/` is counted as their transfer cost
+(`git diff --numstat step20 domains6 -- ezl`).

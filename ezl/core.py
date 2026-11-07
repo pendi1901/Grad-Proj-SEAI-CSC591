@@ -9,6 +9,7 @@ TINY = 1e-32
 
 def coerce(s):
   s = s.strip()
+  if s in ("TRUE", "FALSE"): return int(s == "TRUE")
   for f in (int, float):
     try: return f(s)
     except ValueError: pass

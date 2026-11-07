@@ -11,6 +11,15 @@ hr          = $(MOOT)/optimize/behavior_data/WA_Fn-UseC_-HR-Employee-Attrition.c
 hr_args     = --drop=EmployeeNumber,EmployeeCount,StandardHours,over18 \
               --col=overTime --col2=WorkLifeBalance --goal=YearsWithCurrManager+ \
               --goal2=YearsAtCompany+ --drift=Age --fixed=department,jobRole
+nasa        = $(MOOT)/optimize/process/nasa93dem.csv
+nasa_args   = --col=pmat --col2=acap --goal=Defects- --goal2=Effort- \
+              --drift=cplx --fixed=rely,cplx
+readmit      = $(MOOT)/optimize/health_data/Medical_Data_and_Hospital_Readmissions.csv
+readmit_args = --col=Number_inpatient --col2=Num_medications --goal=Readmitted- \
+               --goal2=Readmitted- --drift=Num_lab_procedures \
+               --fixed=Number_inpatient,Number_emergency
+commits      = $(MOOT)/optimize/hpo/Health-Commits0000.csv
+commits_args = $(health_args)
 
 help: ## list the asks
 	python3 -B -m ezl
@@ -21,8 +30,8 @@ ask%: $(MOOT) ## run one ask, e.g. make ask07 D=hr
 demo: $(MOOT) ## every ask on one domain
 	python3 -B -m ezl all --file=$($(D)) $($(D)_args)
 
-demos: ## every ask on all three domains
-	$(MAKE) demo D=pom3a && $(MAKE) demo D=health && $(MAKE) demo D=hr
+demos: ## every ask on all six domains
+	for d in pom3a health hr nasa readmit commits; do $(MAKE) demo D=$$d || exit 1; done
 
 test: $(MOOT) ## unit tests
 	python3 -B -m unittest discover -s tests -q

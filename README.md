@@ -1,10 +1,10 @@
-# ezl: the shrinking-code ladder (CSC 591, three domains)
+# ezl: the shrinking-code ladder (CSC 591, six domains)
 
 Twenty customer asks, built as twenty git-tagged steps on one small
-plain-Python library (`ezl/`, standard library only), run on three
+plain-Python library (`ezl/`, standard library only), run on six
 MOOT data sets. Does each new skill need less new code than the last?
 
-- Requirements (3 domains × 20 asks): [docs/requirements.md](docs/requirements.md)
+- Requirements (6 domains × 20 asks): [docs/requirements.md](docs/requirements.md)
 - Pre-registered claim (tag `step0`, before any code): [docs/claim.md](docs/claim.md)
 - Nov 9 initial deliverable, one page: [docs/nov9.md](docs/nov9.md)
 
@@ -13,11 +13,11 @@ MOOT data sets. Does each new skill need less new code than the last?
 Needs Python 3.9+ and git. The first command clones MOOT into `./moot`.
 
 ```sh
-make test                 # 32 unit tests, ~15 s
+make test                 # 33 unit tests, ~40 s
 make ask07                # one ask, on pom3a (the default domain)
-make ask07 D=health       # the same ask, other domains: D=pom3a|health|hr
+make ask07 D=health       # other domains: D=pom3a|health|hr|nasa|readmit|commits
 make demo D=hr            # all twenty asks on one domain
-make demos                # all twenty asks on all three domains (~2 min)
+make demos                # all twenty asks on all six domains
 make loc                  # new lines of code per step tag: the histogram
 make                      # list every ask
 ```
@@ -35,7 +35,7 @@ make                      # list every ask
 | 9 | spot | `make ask09` | | 19 | spot | `make ask19` |
 | 10 | race | `make ask10` | | 20 | race | `make ask20` |
 
-Add `D=health` or `D=hr` to any of them. Any setting in
+Add `D=health`, `D=hr`, `D=nasa`, `D=readmit` or `D=commits` to any of them. Any setting in
 `ezl/core.py:the` can be overridden: `python3 -B -m ezl ask07 --budget=30 --file=...`.
 
 ## Layout
