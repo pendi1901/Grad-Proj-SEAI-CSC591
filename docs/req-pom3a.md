@@ -10,7 +10,7 @@ for all three, as the data marks them).
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
-| 1 | Out of 20,000 past project setups, show me the few that came in cheap, on target and with nobody sitting idle, and what they have in common. | remember |
+| 1 | Out of 20,000 past project setups, show me the few that came in lowest on all three of our numbers (cost, score and idle time), and what they have in common. | remember |
 | 2 | Before we kick off, guess this project's cost, score and idle time from its setup. | guess |
 | 3 | Do small teams really do better than big teams, or is that just noise? | certify |
 | 4 | As new project proposals land on my desk one at a time, tell me on the spot which look like winners. | flow |
@@ -32,3 +32,8 @@ for all three, as the data marks them).
 | 20 | Are your cost and idle guesses actually better than just quoting our average? | race |
 
 Each ask is one demo: `make askNN D=pom3a` (for example `make ask07 D=pom3a`).
+
+**Amended Nov 8 (after step 20; wording only, skill unchanged).**
+Ask 1 said "on target", which was vague. The data marks `Score-` as
+lower-is-better, so the ask now just says "lowest on cost, score and
+idle time". The original wording is at tag `step0`.

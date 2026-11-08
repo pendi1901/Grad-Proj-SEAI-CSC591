@@ -44,15 +44,19 @@ cover the ten skills once, asks 11–20 cover them again).
 
 ## 3. What runs now: domain 1's ladder (treatment 7, hand-built)
 
-- 20 tagged steps; `make test` runs 34 tests; `make askNN D=pom3a`
+- 20 tagged steps; `make test` runs 35 tests; `make askNN D=pom3a`
   runs any ask in one command. The same commands run on every
   other domain (`D=health|hr|nasa|readmit|commits`).
 - **New LOC per step** (`make loc`): step 1 = 167 (28%); steps 2–10 =
   14–58; steps 11–20 = 9–21. `same` says steps 11–20 < steps 1–10
   (Cliff's δ 0.72), and still says so with step 1 left out (δ 0.69).
-- **Transfer so far:** domains 2 and 3 added **0 lines** to `ezl/`;
-  each needed 2 lines of Makefile settings, plus the 3-line `drop`
-  option (written in step 1) to ignore HR's ID columns. Three more
+- **Transfer so far:** domain 2 (health) added **0 lines** to `ezl/`
+  (2 lines of Makefile settings). Domain 3 (hr) first needed 0 lines
+  plus 3 lines of settings and the `drop` option written in step 1;
+  after the Nov 8 rewording of asks 8 and 18 ("change only what the
+  office can change") it needed **13 lines** in `ezl/` (2.2% of the
+  ladder), for a `change` option that limits which columns a fix may
+  touch. Three more
   domains, added after step 20 (nasa93dem, hospital readmissions,
   OSS commits), cost **10 new lines in `ezl/`** (1.7% of the ladder,
   tag `domains6`). Those lines fixed a hang in the chooser on tiny
@@ -62,8 +66,9 @@ cover the ten skills once, asks 11–20 cover them again).
   active learner (ask 7) **loses** to "measure 50 random rows and
   keep the best" (ask 10, `same`-certified); on readmissions both hit
   the ceiling and tie. That is the "ezr loses at first"
-  case; tuning comes next. In HR, `TotalWorkingYears` dominates the
-  tenure trees, which is a likely leak.
+  case; tuning comes next. In HR, `TotalWorkingYears` dominated the
+  tenure trees (a leak); it and `YearsSinceLastPromotion` are now
+  dropped, and `JobLevel` becomes the top driver.
 
 ## 4. Next (to Nov 30)
 

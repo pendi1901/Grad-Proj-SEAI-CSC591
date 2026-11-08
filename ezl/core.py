@@ -4,7 +4,7 @@ import csv, math, random, re
 
 the = dict(file="moot/optimize/process/pom3a.csv", seed=1, p=2,
            few=128, stop=32, cap=1024, leaf=3, maxd=4, budget=50,
-           check=5, more=4, keepf=0.66, k=5, drop="")
+           check=5, more=4, keepf=0.66, k=5, drop="", change="")
 TINY = 1e-32
 
 def coerce(s):

@@ -8,7 +8,8 @@ health      = $(MOOT)/optimize/hpo/Health-ClosedIssues0000.csv
 health_args = --col=criterion --col2=Max_depth --goal=PRED40+ --goal2=MRE- \
               --drift=N_estimators --fixed=criterion,N_estimators
 hr          = $(MOOT)/optimize/behavior_data/WA_Fn-UseC_-HR-Employee-Attrition.csv
-hr_args     = --drop=EmployeeNumber,EmployeeCount,StandardHours,over18 \
+hr_args     = --drop=EmployeeNumber,EmployeeCount,StandardHours,over18,TotalWorkingYears,YearsSinceLastPromotion \
+              --change=businessTravel,overTime,MonthlyIncome,PercentSalaryHike,StockOptionLevel,TrainingTimesLastYear,JobLevel,jobRole,department,WorkLifeBalance \
               --col=overTime --col2=WorkLifeBalance --goal=YearsWithCurrManager+ \
               --goal2=YearsAtCompany+ --drift=Age --fixed=department,jobRole
 nasa        = $(MOOT)/optimize/process/nasa93dem.csv

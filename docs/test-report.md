@@ -125,10 +125,26 @@ intended behaviour.
 |---|---|---|
 | pom3a | yes | Large and numeric. Two certify verdicts are seed-unstable (report the tally). |
 | health | yes | Stable on every check. |
-| hr | yes | Stable. The likely `TotalWorkingYears` leak needs a line in the report. |
+| hr | yes | Stable. The `TotalWorkingYears` leak is fixed (Nov 8, see below). |
 | nasa | extra | Its asks are fair at budget 20, but the clustering asks (1, 11) only make 2–3 groups. Good transfer evidence: 10 lines. |
 | readmit | extra | The yes/no goal makes choose/race hit the ceiling (100 vs 100), so they can't tell methods apart. |
 | commits | extra | Behaves almost the same as health (same knobs): it reproduces health, it isn't a new domain. |
+
+## 5b. HR rerun after the Nov 8 changes
+
+HR asks 2, 8 and 18 were reworded (see the note at the end of
+`req-hr.md`). Two tenure-in-disguise columns are now dropped, and fixes
+may only change pay, overtime, travel, level, role, training, stock
+and work-life balance (new `--change` option, 13 lines in `ezl/`, one
+new test, 35 tests in all). All 20 HR asks still run. What moved:
+
+- **The top driver** of tenure is now `JobLevel`, not `TotalWorkingYears`.
+- **Fixes** now read like "raise JobLevel above 1; MonthlyIncome above
+  10,239", with no "make them older".
+- **Guessing got harder, honestly:** with the leak gone, ask 20 at seed
+  1 ties the average on 2 of 3 goals. That is the real
+  skill of the guesser on day-one data. The 5-seed table above was run
+  before this change, so its HR row is out of date.
 
 ## 6. Before Nov 9 / Nov 30
 

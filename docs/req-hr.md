@@ -7,18 +7,20 @@ overtime, stock options, training, work-life balance, and so on. The
 outcomes: `YearsAtCompany+`, `YearsInCurrentRole+`,
 `YearsWithCurrManager+` (higher is better: people who stay).
 ID and constant columns (`EmployeeNumber`, `EmployeeCount`,
-`StandardHours`, `over18`) are ignored.
+`StandardHours`, `over18`) are ignored, and so are two columns that
+are really tenure in disguise (`TotalWorkingYears`,
+`YearsSinceLastPromotion`).
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
 | 1 | Out of our staff, show me the groups who stay longest (with the company, in their role, with their manager) and what they share. | remember |
-| 2 | For a new hire, guess how many years they'll stay with us, in their role and with their manager. | guess |
+| 2 | For a new hire, guess how many years they'll stay with us, in their role and with their manager, using only what we know on day one. | guess |
 | 3 | Does overtime really shorten how long people stay, or is that noise? | certify |
 | 4 | As new employee records arrive one at a time, flag on the spot the ones who look like long-stayers. | flow |
 | 5 | Why do some people leave early? What separates short-stayers from long-stayers? | blame |
 | 6 | Give me a few rules of thumb about who stays that I can defend to leadership. | justify |
 | 7 | Find the profile of a long-staying employee while reviewing only about 50 files in detail. | choose |
-| 8 | This person looks like a flight risk. What's the smallest change in their situation that would make them at least typical? | fix |
+| 8 | This person looks like a flight risk. What's the smallest change we could make (pay, overtime, travel, level or role) that would make them at least typical? | fix |
 | 9 | Flag employee records that look like nobody else (probably data-entry errors). | spot |
 | 10 | Prove your shortlist beats reviewing 50 random files and keeping the best. | race |
 | 11 | Group our staff into a few families so I can see the main kinds of employee we have. | remember |
@@ -28,8 +30,15 @@ ID and constant columns (`EmployeeNumber`, `EmployeeCount`,
 | 15 | What's the single biggest driver of how long people stay with the company? | blame |
 | 16 | Explain, for this one employee, why you rated them the way you did. | justify |
 | 17 | Within a given department and job role, what kind of employee stays longest? | choose |
-| 18 | What would this employee's situation need to change to look like our longest-staying group? | fix |
+| 18 | What would we need to change for this employee (pay, overtime, travel, level or role) to make them look like our longest-staying group? | fix |
 | 19 | Who looked like a typical stayer on paper but left much sooner (or stayed much longer) than their look-alikes? | spot |
 | 20 | Are your tenure guesses better than just quoting the company average? | race |
 
 Each ask is one demo: `make askNN D=hr`.
+
+**Amended Nov 8 (after step 20; wording only, skills unchanged).**
+Asks 2, 8 and 18 were reworded. Ask 2 now says "only what we know on
+day one", so the two tenure-in-disguise columns are dropped (they
+dominated every tree: a leak). Asks 8 and 18 now name the things the
+office can actually change, so a fix never says "make them older" or
+changes gender or marital status. The original wording is at tag `step0`.
