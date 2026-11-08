@@ -1,8 +1,8 @@
 # Test report (Nov 6)
 
 What was run, what passed, and what the results do and don't support.
-All runs used the repo at tag `domains6`. The scripts and raw outputs
-are not in the repo; the commands are given so anyone can rerun them.
+All runs used the repo at tag `domains6`, except the HR rerun (†), made after commit `f775e88`. The sweep script is `sh/sweep.py`; raw outputs are not kept, but the
+commands below rerun everything.
 
 ## 1. Does every step stand on its own?
 
@@ -59,22 +59,23 @@ after that.
 |---|---|---|---|---|---|---|
 | 3: setting matters on all goals? | **3 real / 2 noise** | 5 real | 5 noise | 5 noise | 5 real | 5 real |
 | 13: setting moves one goal? | **3 real / 2 noise** | 5 noise | 5 noise | 5 real | **1 real / 4 noise** | 5 noise |
-| 10: chooser vs 50 random | random wins 5/5 | random 2, tie 3 | random 4, ours 1 | random wins 5/5 | tie 3, medians tie 2* | random 2, tie 3 |
-| 20: guesses vs the average | ours wins 2 of 3 goals, ties Idle, 5/5 | ours 5/5 | ours 3/5, ties 2/5 | ours 5/5 (one tie) | ours 5/5 | ours 5/5 |
+| 10: chooser vs 50 random | random wins 5/5 | random 2, tie 3 | random wins 5/5 † | random wins 5/5 | tie 3, medians tie 2* | random 2, tie 3 |
+| 20: guesses vs the average | ours wins 2 of 3 goals, ties Idle, 5/5 | ours 5/5 | ours 5, tie 9, average 1 (of 15 goal-seeds) † | ours 5/5 (one tie) | ours 5/5 | ours 5/5 |
 
 Median win for ask 7 over the 5 seeds (100 = best row of all, 0 = median row):
 
 | pom3a | health | hr | nasa | readmit | commits |
 |---|---|---|---|---|---|
-| 58–76 | 99.1–99.6 | 87.5–92.7 | 37–85 | 100 (ceiling) | 98.4–99.0 |
+| 58–76 | 99.1–99.6 | 80.8–91.4 † | 37–85 | 100 (ceiling) | 98.4–99.0 |
 
 **What holds up:**
-- **Guessing works.** Nearest-neighbour guesses beat "quote the
-  average" in every domain, at every seed, on most goals. The
-  exceptions are ties (pom3a's Idle, and two HR seeds), never losses.
+- **Guessing mostly works.** Nearest-neighbour guesses beat "quote
+  the average" in five domains at every seed, apart from a few ties.
+  HR is the exception once its leak is removed: on day-one data the
+  guesses mostly tie the average, and lose once (seed 2, years in role).
 - **The chooser never beats random sampling.** Over 30 domain-seed
-  runs it was certified better exactly once (HR, seed 5). It lost or
-  tied every other time. This is the clearest result in the repo,
+  runs it was never certified better. (Before the HR leak was removed
+  it won once, at HR seed 5; that win went away with the leak.) This is the clearest result in the repo,
   and it is negative.
 
 **What does not hold up:**
@@ -141,10 +142,11 @@ new test, 35 tests in all). All 20 HR asks still run. What moved:
 - **The top driver** of tenure is now `JobLevel`, not `TotalWorkingYears`.
 - **Fixes** now read like "raise JobLevel above 1; MonthlyIncome above
   10,239", with no "make them older".
-- **Guessing got harder, honestly:** with the leak gone, ask 20 at seed
-  1 ties the average on 2 of 3 goals. That is the real
-  skill of the guesser on day-one data. The 5-seed table above was run
-  before this change, so its HR row is out of date.
+- **Guessing got harder, honestly:** with the leak gone, ask 20 over 5
+  seeds × 3 goals is ours 5, tie 9, average 1 (before: ours 3 seeds,
+  ties 2). The chooser lost all 5 races (before: lost 4, won 1). Asks 3
+  and 13 are still noise at every seed. The HR column above (marked †)
+  is the rerun, made with `sh/sweep.py`.
 
 ## 6. Before Nov 9 / Nov 30
 
@@ -161,6 +163,7 @@ new test, 35 tests in all). All 20 HR asks still run. What moved:
 make test                                   # current tag
 for t in $(seq 1 20); do git checkout -q step$t && python3 -B -m unittest discover -s tests -q; done; git checkout -q master
 make demos                                  # every ask, every domain, seed 1
+python3 -B sh/sweep.py out.json hr          # every ask + the 5-seed verdicts, one domain
 python3 -B -m ezl ask10 --file=moot/optimize/process/pom3a.csv --seed=3     # one ask, another seed
 python3 -B -m ezl ask07 ask10 ask17 --file=moot/optimize/process/nasa93dem.csv --budget=20 --fixed=rely,cplx
 ```
