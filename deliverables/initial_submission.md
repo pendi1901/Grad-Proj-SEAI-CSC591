@@ -37,14 +37,14 @@ retention office studying who stays (IBM HR attrition, 1,470
 employees, mixed symbolic/numeric, goals: years at the company, in
 role, with manager).
 
-## 2. Requirements (3 × 20 asks, awaiting the lecturer's OK)
+## 2. Requirements (3 × 20 asks)
 
 `docs/requirements_pom3a.md`, `docs/requirements_health.md`, `docs/requirements_hr.md` (plus
 extra domains `requirements_nasa.md`, `requirements_readmit.md`, `requirements_commits.md`): twenty
 asks each, in the client's words, each tagged with its skill (asks 1–10
 cover the ten skills once, asks 11–20 cover them again).
 
-## 3. What runs now: domain 1's ladder (treatment 7, hand-built)
+## 3. What runs now: domain 1's ladder (treatment 7)
 
 - 20 tagged steps; `make test` runs 35 tests; `make askNN D=pom3a`
   runs any ask in one command. The same commands run on every
@@ -71,9 +71,3 @@ cover the ten skills once, asks 11–20 cover them again).
   case; tuning comes next. In HR, `TotalWorkingYears` dominated the
   tenure trees (a leak); it and `YearsSinceLastPromotion` are now
   dropped, and `JobLevel` becomes the top driver.
-
-## 4. Next (to Nov 30)
-
-The LLM treatments 1–6 (headless `claude -p`, one fresh directory per
-trial, no memory, N ≥ 3, the goal is 10), then `same` tables per
-domain, tuning the chooser, and the report.
