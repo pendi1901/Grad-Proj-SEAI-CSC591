@@ -1,6 +1,8 @@
 # CSC 591 project, initial deliverable (Nov 9)
 
-**Group:** _names_ · **Repo:** https://github.com/pendi1901/Grad-Proj-SEAI-CSC591 (tags `step0`..`step20`)
+**Group:** G2 ·
+**Team:** : Luke Shafer (lashafer) , Pendyala Ritvik(rpendya)(0048)
+**Repo:** https://github.com/pendi1901/Grad-Proj-SEAI-CSC591 (tags `step0`..`step20`)
 
 ## 1. The pre-registered claim
 
@@ -18,19 +20,19 @@
 `docs/hypotheses.md`). Metric: new LOC per step, counted only for steps
 whose demo runs and whose test passes. Baseline: the no-reuse
 treatments 1, 3, 5. Every comparison uses `same` (Cohen + KS +
-Cliff's delta). *Timm wins* a domain if `same` says steps 11–20 need
+Cliff's delta). _Timm wins_ a domain if `same` says steps 11–20 need
 less new code than steps 1–10 (in treatment 7 and in at least two of
 treatments 2, 4, 6), **and** reuse beats cold in at least two of the
-pairs 2<1, 4<3, 6<5. *The rival wins* if `same` calls both of those
+pairs 2<1, 4<3, 6<5. _The rival wins_ if `same` calls both of those
 ties. Anything else is reported as a split verdict. Transfer
 prediction: domains 2 and 3 need less than 10% new code.
 
 **Domains and data.** Three clients, three MOOT sets, one codebase.
-*pom3a*: an agile delivery office choosing project setups
+_pom3a_: an agile delivery office choosing project setups
 (`process/pom3a.csv`, 20k simulated projects, 9 knobs, goals: cost,
-score, idle). *health*: an open-source foundation tuning its
+score, idle). _health_: an open-source foundation tuning its
 closed-issue forecaster (`hpo/Health-ClosedIssues0000.csv`, 10k
-random-forest settings, goals: MRE, accuracy, PRED40). *hr*: a
+random-forest settings, goals: MRE, accuracy, PRED40). _hr_: a
 retention office studying who stays (IBM HR attrition, 1,470
 employees, mixed symbolic/numeric, goals: years at the company, in
 role, with manager).
