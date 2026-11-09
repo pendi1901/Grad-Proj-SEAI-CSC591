@@ -1,10 +1,13 @@
-# CSC 591 project, initial deliverable (Nov 9)
+# CSC 591 project: initial deliverable (Nov 9)
 
-**Group:** G2 ·
-**Team:** : Luke Shafer (lashafer) , Pendyala Ritvik(rpendya)(0048)
-**Repo:** https://github.com/pendi1901/Grad-Proj-SEAI-CSC591 (tags `step0`..`step20`)
+**Group:** G2
+**Team:** Luke Shafer (lashafer), Pendyala Ritvik (rpendya) (0048)
+**Repo:** https://github.com/pendi1901/Grad-Proj-SEAI-CSC591 (tags `step0` to `step20`)
 
-## 1. The pre-registered claim
+## 1. Pre-registered claim
+
+We committed both hypotheses and our win conditions at tag `step0`,
+before writing any code. Full text: `docs/hypotheses.md`.
 
 > **The Timm hypothesis.** Neuro-symbolic systems improve when their
 > symbolic half is factored into small reusable structures. The ten
@@ -16,64 +19,104 @@
 > buys nothing: skill i+1 costs about the same whoever writes it, and
 > whatever library sits underneath.
 
-**Win conditions** (committed at `step0`, before code; full text in
-`docs/hypotheses.md`). Metric: new LOC per step, counted only for steps
-whose demo runs and whose test passes. Baseline: the no-reuse
-treatments 1, 3, 5. Every comparison uses `same` (Cohen + KS +
-Cliff's delta). _Timm wins_ a domain if `same` says steps 11–20 need
-less new code than steps 1–10 (in treatment 7 and in at least two of
-treatments 2, 4, 6), **and** reuse beats cold in at least two of the
-pairs 2<1, 4<3, 6<5. _The rival wins_ if `same` calls both of those
-ties. Anything else is reported as a split verdict. Transfer
-prediction: domains 2 and 3 need less than 10% new code.
+**How we decide.** We measure new lines of code per step, and only
+count a step if its demo runs and its test passes. The baseline is the
+treatments where the LLM is not told to reuse earlier code (1, 3 and 5).
+Every comparison uses the `same` test (Cohen's d, Kolmogorov-Smirnov
+and Cliff's delta must all agree).
 
-**Domains and data.** Three clients, three MOOT sets, one codebase.
-_pom3a_: an agile delivery office choosing project setups
-(`process/pom3a.csv`, 20k simulated projects, 9 knobs, goals: cost,
-score, idle). _health_: an open-source foundation tuning its
-closed-issue forecaster (`hpo/Health-ClosedIssues0000.csv`, 10k
-random-forest settings, goals: MRE, accuracy, PRED40). _hr_: a
-retention office studying who stays (IBM HR attrition, 1,470
-employees, mixed symbolic/numeric, goals: years at the company, in
-role, with manager).
+- **The Timm hypothesis wins a domain** if both are true:
+  1. steps 11–20 need fewer new lines than steps 1–10, in treatment 7
+     and in at least two of treatments 2, 4 and 6;
+  2. telling the LLM to reuse code gives fewer new lines than not
+     telling it, in at least two of the pairs (2 vs 1, 4 vs 3, 6 vs 5).
+- **The rival wins a domain** if `same` finds no difference in both of
+  those checks.
+- **Any other result** is reported as a split.
+- **Prediction for domains 2 and 3:** they need less than 10% new code.
 
-## 2. Requirements (3 × 20 asks, awaiting the lecturer's OK)
+**Domains and data.** We have three clients, three MOOT data sets and
+one shared codebase.
+- **pom3a:** an agile delivery office choosing how to set up projects.
+  `process/pom3a.csv` has 20,000 simulated projects with 9 settings;
+  the goals are cost, score and idle time.
+- **health:** an open-source foundation tuning the model that forecasts
+  closed issues. `hpo/Health-ClosedIssues0000.csv` has 10,000
+  random-forest settings; the goals are error (MRE), accuracy and
+  PRED40.
+- **hr:** a retention office studying which employees stay.
+  The IBM HR attrition data has 1,470 employees, with both text and
+  number columns; the goals are years at the company, in the current
+  role, and with the current manager.
 
-`docs/requirements_pom3a.md`, `docs/requirements_health.md`, `docs/requirements_hr.md` (plus
-extra domains `requirements_nasa.md`, `requirements_readmit.md`, `requirements_commits.md`): twenty
-asks each, in the client's words, each tagged with its skill (asks 1–10
-cover the ten skills once, asks 11–20 cover them again).
+## 2. Requirements (3 domains × 20 asks, waiting for the lecturer's OK)
 
-## 3. What runs now: domain 1's ladder (treatment 7, hand-built)
+`docs/requirements_pom3a.md`, `docs/requirements_health.md` and
+`docs/requirements_hr.md` each list 20 asks in the client's own words,
+and each ask is tagged with the skill it shows. Asks 1–10 cover the ten
+skills once, and asks 11–20 cover them a second time. We also wrote 20
+asks each for three extra domains (`requirements_nasa.md`,
+`requirements_readmit.md`, `requirements_commits.md`).
 
-- 20 tagged steps; `make test` runs 35 tests; `make askNN D=pom3a`
-  runs any ask in one command. The same commands run on every
-  other domain (`D=health|hr|nasa|readmit|commits`).
-- **New LOC per step** (`make loc`; `results/loc.md`): step 1 = 167 (28%); steps 2–10 =
-  14–58; steps 11–20 = 9–21. `same` says steps 11–20 < steps 1–10
-  (Cliff's δ 0.72), and still says so with step 1 left out (δ 0.69).
-- **Transfer so far** (`results/transfer.md`): domain 2 (health) added **0 lines** to `ezl/`
-  (2 lines of Makefile settings). Domain 3 (hr) first needed 0 lines
-  plus 3 lines of settings and the `drop` option written in step 1;
-  after the Nov 8 rewording of asks 8 and 18 ("change only what the
-  office can change") it needed **13 lines** in `ezl/` (2.2% of the
-  ladder), for a `change` option that limits which columns a fix may
-  touch. Three more
-  domains, added after step 20 (nasa93dem, hospital readmissions,
-  OSS commits), cost **10 new lines in `ezl/`** (1.7% of the ladder,
-  tag `domains6`). Those lines fixed a hang in the chooser on tiny
-  pools (NASA has 93 rows), read TRUE/FALSE cells, and shrank the
-  drift windows for small data.
-- **Early findings, kept as-is.** On five of the six domains the
-  active learner (ask 7) **loses** to "measure 50 random rows and
-  keep the best" (ask 10, `same`-certified); on readmissions both hit
-  the ceiling and tie. That is the "ezr loses at first"
-  case; tuning comes next. In HR, `TotalWorkingYears` dominated the
-  tenure trees (a leak); it and `YearsSinceLastPromotion` are now
-  dropped, and `JobLevel` becomes the top driver.
+## 3. What runs now: domain 1 (pom3a)
 
-## 4. Next (to Nov 30)
+- There are 20 tagged steps. `make test` runs 35 tests, and
+  `make askNN D=pom3a` runs any ask with one command. The same commands
+  work for every other domain (`D=health|hr|nasa|readmit|commits`).
+- **New lines of code per step** (`make loc`, `results/loc.md`): step 1
+  added 167 lines (28% of the total), steps 2–10 added 14–58 each, and
+  steps 11–20 added 9–21 each. `same` says steps 11–20 needed less code
+  than steps 1–10 (Cliff's delta 0.72), and still does when step 1 is
+  left out (0.69).
+- **Cost of the other domains** (`results/transfer.md`):
+  - health needed 0 new lines in `ezl/`, plus 2 lines of settings in the
+    Makefile.
+  - hr first needed 0 new lines plus 3 lines of settings. On Nov 8 we
+    reworded asks 8 and 18 so a fix may only change things the office
+    controls; that needed 13 new lines in `ezl/` (2.2% of the 590).
+  - The three extra domains (nasa, readmit, commits) together needed
+    10 new lines (1.7%, tag `domains6`). They fixed a bug where the
+    chooser looped forever on very small data (nasa has 93 rows),
+    read TRUE/FALSE values as 1/0, and shortened the drift window for
+    small data.
+- **Early findings.**
+  - On five of the six domains, our chooser (ask 7) does worse than
+    picking 50 random rows and keeping the best (ask 10); `same` confirms
+    the difference. On readmit both score 100, so they tie. The project
+    brief expects this ("When ezr loses"), and tuning the chooser is our
+    next step.
+  - In hr, `TotalWorkingYears` and `YearsSinceLastPromotion` closely
+    track how long someone has been at the company, so they gave the
+    answer away. We dropped both; `JobLevel` is now the biggest factor.
 
-The LLM treatments 1–6 (headless `claude -p`, one fresh directory per
-trial, no memory, N ≥ 3, the goal is 10), then `same` tables per
-domain, tuning the chooser, and the report.
+## 4. AI use
+
+We used Claude Code (Anthropic's Claude, Opus model) for this
+deliverable:
+- It drafted the 20 asks per domain, which we reviewed and changed
+  (for example the hr wording on Nov 8).
+- It wrote the code in `ezl/`, the tests and the experiment scripts.
+- It ran the tests and the 5-seed runs, and drafted these documents.
+
+We chose the domains, decided which changes to make, and checked the
+results.
+
+Errors found and fixed so far:
+- the chooser looped forever on small data;
+- TRUE/FALSE text crashed numeric columns;
+- the drift ask failed on data smaller than its window;
+- ask 10 called a tie a win when the medians were equal;
+- one rerun silently ignored the seed we passed;
+- the hr data contained two columns that gave the answer away.
+
+So far the code was written with Claude Code, not by hand, so this build
+is not yet a human-only treatment 7.
+
+## 5. Next steps (to Nov 30)
+
+- Run LLM treatments 1–6, with a headless `claude -p` call and a fresh
+  folder per trial, so nothing carries over between trials. We need at
+  least 3 runs per treatment, and are aiming for 10.
+- Build `same` tables for each domain.
+- Tune the chooser.
+- Write the report.

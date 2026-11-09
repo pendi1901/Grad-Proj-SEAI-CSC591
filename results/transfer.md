@@ -1,24 +1,26 @@
-# Transfer: what each domain cost after domain 1
+# Code needed for each new domain
 
-The ladder (tags `step1`–`step20`) was built on pom3a: 590 lines in
-`ezl/`. Every later change to `ezl/` is listed here, with what forced
-it. Per-domain settings live in the `Makefile` (file path, which
-columns each ask studies, columns to ignore).
+We built steps 1–20 on pom3a, which came to 590 lines in `ezl/`. This
+table lists every later change to `ezl/` and what caused it. Each
+domain's own settings are in the Makefile: the file path, the columns
+each ask looks at, and the columns to ignore.
 
-| domain | new lines in `ezl/` | Makefile settings | what forced the code |
+| domain | new lines in `ezl/` | lines of Makefile settings | why the code was needed |
 |---|---:|---:|---|
-| health | 0 | 2 | nothing |
-| hr (as first run) | 0 | 3 | nothing (the `drop` option was written in step 1) |
-| nasa, readmit, commits | 10 (+10 −5), commit `ea499fa`, tag `domains6` | 2–3 each | a chooser hang on 93-row data, TRUE/FALSE cells, drift windows on small data |
-| hr (Nov 8 rewording) | 13 (+13 −7), commit `355679b` | +1 | a `change` option, so fixes only touch columns the office controls |
+| health | 0 | 2 | no new code needed |
+| hr (first version) | 0 | 3 | no new code needed (the option to ignore columns was already in step 1) |
+| nasa, readmit, commits | 10 (+10 −5), commit `ea499fa`, tag `domains6` | 2–3 each | the chooser looped forever on 93 rows; TRUE/FALSE values crashed numeric columns; the drift window was bigger than the data |
+| hr (Nov 8 rewording) | 13 (+13 −7), commit `355679b` | 1 more | a `change` option, so a fix only changes columns the office controls |
 
-One more `ezl/` change was a bug fix, not transfer: commit `60550ca`
-(+9 −3), where ask 10 had called equal medians a win.
+One more change to `ezl/` was a bug fix, not a new domain: commit
+`60550ca` (+9 −3), where ask 10 reported a win when the two medians
+were equal.
 
-**Against the prediction** (domains 2 and 3 need under 10% new code):
-health 0%, hr 13 / 590 = 2.2%. Both pass.
+**Our prediction** was that domains 2 and 3 would need less than 10%
+new code. health needed 0%, and hr needed 13 / 590 = 2.2%. Both are
+under 10%.
 
-Regenerate:
+To regenerate:
 
 ```sh
 git log --reverse --format='%h %ad %s' --date=short step20..HEAD -- ezl

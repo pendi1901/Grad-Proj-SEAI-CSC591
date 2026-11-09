@@ -1,13 +1,15 @@
-# Test report (Nov 6)
+# Test report
 
-What was run, what passed, and what the results do and don't support.
-All runs used the repo at tag `domains6`, except the HR rerun (†), made after commit `355679b`. The sweep script is `experiments/sweep.py`; raw outputs are not kept, but the
-commands below rerun everything.
+This report lists what we ran, what passed, and which results hold up.
+Unless marked with †, all runs used tag `domains6` (Nov 6). Runs marked
+† are the hr rerun after commit `355679b` (Nov 8). The script for the
+5-seed runs is `experiments/sweep.py`. We did not keep the raw output,
+but the commands at the end rerun everything.
 
-## 1. Does every step stand on its own?
+## 1. Does every step pass its own tests?
 
-A fresh clone was checked out at each tag in turn, and the unit tests
-present at that tag were run.
+We made a fresh clone, checked out each tag in turn, and ran the tests
+that existed at that tag.
 
 | tag | tests | result | | tag | tests | result |
 |---|---:|---|---|---|---:|---|
@@ -23,18 +25,18 @@ present at that tag were run.
 | step10 | 21 | OK | | step20 | 32 | OK |
 | | | | | domains6 | 33 | OK |
 
-All 21 tags pass, so the histogram (`make loc`, 590 lines in total)
-comes from steps that each worked at the time they were tagged.
+All 21 tags pass. So every step counted in the lines-of-code table
+(`make loc`, 590 lines in total) worked when it was tagged.
 
-**Known defect in tags step7–step20:** `acquire` (the chooser) loops
-forever when it has budget left but fewer than 6 unlabelled rows. The
-three original domains never hit it; NASA (93 rows) did. It was fixed
-at `domains6`, and a regression test was added. If a marker checks out
-an old tag and runs `make ask07 D=nasa`, it will hang.
+**Known bug in tags step7 to step20:** the chooser (`acquire` in
+`ezl/s07_choose.py`) loops forever when it still has budget left but
+fewer than 6 unmeasured rows. pom3a, health and hr never hit this;
+nasa (93 rows) did. We fixed it at tag `domains6` and added a test for
+it. Running `make ask07 D=nasa` on an older tag will hang.
 
 ## 2. Does every ask run on every domain?
 
-Every one of the 20 asks, on all six domains, at seed 1:
+We ran all 20 asks on all six domains, at seed 1:
 
 | domain | rows used | asks OK | total time | slowest ask |
 |---|---:|---:|---:|---|
@@ -45,61 +47,62 @@ Every one of the 20 asks, on all six domains, at seed 1:
 | readmit | 1,024 of 25,000 | 20/20 | 128 s | ask09 (28 s) |
 | commits | 1,024 of 10,000 | 20/20 | 45 s | ask09 (8 s) |
 
-No crashes and no errors. ask09 (spot) is the slowest everywhere,
-because it sorts 256 reference rows for every row. The times were
-measured with six domains running in parallel, so single runs are faster.
+There were no crashes or errors. Ask 9 (spot) is the slowest in every
+domain, because for each row it sorts 256 other rows by distance. We
+ran the six domains at the same time, so a single run is faster than
+the times shown.
 
-## 3. Do the verdicts survive a change of seed?
+## 3. Do the results change with the random seed?
 
-The asks that end in a yes/no verdict were rerun at seeds 1–5. The
-seed changes which 1,024 rows are sampled, and every random choice
-after that.
+We reran the asks that give a yes/no answer at seeds 1 to 5. The seed
+changes which 1,024 rows are sampled, and every random choice after
+that.
 
-| ask | pom3a | health | hr | nasa | readmit | commits |
+| ask | pom3a | health | hr † | nasa | readmit | commits |
 |---|---|---|---|---|---|---|
-| 3: setting matters on all goals? | **3 real / 2 noise** | 5 real | 5 noise | 5 noise | 5 real | 5 real |
-| 13: setting moves one goal? | **3 real / 2 noise** | 5 noise | 5 noise | 5 real | **1 real / 4 noise** | 5 noise |
-| 10: chooser vs 50 random | random wins 5/5 | random 2, tie 3 | random wins 5/5 † | random wins 5/5 | tie 3, medians tie 2* | random 2, tie 3 |
-| 20: guesses vs the average | ours wins 2 of 3 goals, ties Idle, 5/5 | ours 5/5 | ours 5, tie 9, average 1 (of 15 goal-seeds) † | ours 5/5 (one tie) | ours 5/5 | ours 5/5 |
+| 3: does one setting matter for all goals? | **real 3, noise 2** | real 5 | noise 5 | noise 5 | real 5 | real 5 |
+| 13: does one setting change one goal? | **real 3, noise 2** | noise 5 | noise 5 | real 5 | **real 1, noise 4** | noise 5 |
+| 10: our chooser vs 50 random rows | random better 5 | random better 2, tie 3 | random better 5 | random better 5 | tie 3, equal medians 2 * | random better 2, tie 3 |
+| 20: our guesses vs the average | ours better on 2 of 3 goals, tie on idle, all 5 seeds | ours better 5 | over 15 goal-seed pairs: ours better 5, tie 9, average better 1 | ours better 5 (one tie) | ours better 5 | ours better 5 |
 
-Median win for ask 7 over the 5 seeds (100 = best row of all, 0 = median row):
+Ask 7 result over the 5 seeds (100 = the best row in the data,
+0 = the median row):
 
-| pom3a | health | hr | nasa | readmit | commits |
+| pom3a | health | hr † | nasa | readmit | commits |
 |---|---|---|---|---|---|
-| 58–76 | 99.1–99.6 | 80.8–91.4 † | 37–85 | 100 (ceiling) | 98.4–99.0 |
+| 58–76 | 99.1–99.6 | 80.8–91.4 | 37–85 | 100 (highest possible) | 98.4–99.0 |
 
-**What holds up:**
-- **Guessing mostly works.** Nearest-neighbour guesses beat "quote
-  the average" in five domains at every seed, apart from a few ties.
-  HR is the exception once its leak is removed: on day-one data the
-  guesses mostly tie the average, and lose once (seed 2, years in role).
-- **The chooser never beats random sampling.** Over 30 domain-seed
-  runs it was never certified better. (Before the HR leak was removed
-  it won once, at HR seed 5; that win went away with the leak.) This is the clearest result in the repo,
-  and it is negative.
+**Results that are the same at every seed:**
+- **Our guesses beat quoting the average** in five domains, apart from a
+  few ties. hr is the exception: after we removed the two columns that
+  gave the answer away, our guesses mostly tie the average, and the
+  average was better once (seed 2, years in current role).
+- **Our chooser never beats random picks.** Over 30 domain-seed runs,
+  `same` never found it better. (Before the hr fix it won once, at hr
+  seed 5. That win went away after the fix.) This is our clearest
+  result so far, and it is a negative one.
 
-**What does not hold up:**
-- **pom3a's ask 3 and ask 13 flip with the seed.** "Do small teams do
-  better?" and "Does planning cut idle time?" have no stable answer on
-  1,024 sampled rows. Don't quote either verdict from a single run.
-  Either raise `cap` or report the 5-seed tally.
-- **readmit's ask 13** is real at seed 1 only.
+**Results that change with the seed:**
+- **pom3a asks 3 and 13.** "Do small teams do better?" and "Does more
+  planning cut idle time?" have no stable answer on 1,024 sampled rows.
+  We report the 5-seed count for these, not a single run.
+- **readmit ask 13** is "real" at seed 1 only.
 
-\* **A reporting bug in ask 10 (fixed after `domains6`):** when both
-medians hit the same value (readmit: 100 vs 100), but `same` still
-said the two distributions differ, the code printed "random really is
-better", because it broke the tie on medians only. It now prints
-"different, but the medians tie", and names the higher mean (random,
-at both seeds). A unit test covers it (34 tests). Health's 99.6 vs
-99.7 still reads as a win for random at seeds 1–2: `same` calls it
-real, but it is 0.1 points, so call it a practical tie in the report.
+\* **A bug in ask 10, fixed after `domains6`.** When both medians were
+equal (readmit: 100 vs 100) but `same` said the results differed, ask
+10 printed "random really is better", because it only compared
+medians. It now prints "different, but the medians tie" and says which
+side has the higher mean (random, at both seeds). A test covers this.
+health's 99.6 vs 99.7 is still reported as a win for random at seeds 1
+and 2. `same` says the difference is real, but it is 0.1 points, so we
+treat it as a tie in practice.
 
-## 4. NASA with a smaller budget (`--budget=20`)
+## 4. nasa with a smaller budget (`--budget=20`)
 
-The suggestion was to run NASA's budgeted asks with 20 labels instead
-of 50, so the budget isn't more than half the data.
+With 93 rows, a budget of 50 lets the chooser see more than half the
+data. We reran the budget asks with 20 instead.
 
-| seed | ask 7 median win | ask 10: ours vs random | verdict |
+| seed | ask 7 result | ask 10: ours vs random | verdict |
 |---|---:|---|---|
 | 1 | 51.4 | 51.4 vs 79.4 | random better |
 | 2 | 37.4 | 37.4 vs 84.7 | random better |
@@ -107,63 +110,75 @@ of 50, so the budget isn't more than half the data.
 | 4 | 30.9 | 30.9 vs 52.8 | random better |
 | 5 | 30.2 | 30.2 vs 84.7 | random better |
 
-A smaller budget makes the test fair, but it doesn't rescue the
-chooser: random still wins 5/5. With budget 20, the chooser trains its
-tree on 15 labels from 46 rows and then gets just 5 picks. Ask 17 with
-budget 20 ran at 4 of 5 seeds. At the fifth, only 11 rows matched the
-fixed settings, so it said "too few rows" and stopped, which is the
-intended behaviour.
+The smaller budget is a fairer test, but random still wins at all 5
+seeds. With a budget of 20, the chooser builds its tree from 15
+measured rows (out of 46) and then gets only 5 more picks. Ask 17 ran
+at 4 of the 5 seeds. At the fifth seed only 11 rows matched the fixed
+settings, so it printed "too few rows" and stopped, which is what it is
+meant to do.
 
-## 5. Which three domains to submit
+## 5. The three domains we submit
 
-**Recommended: pom3a, health, hr.**
-- They are the three in the step0 pre-registration.
-- All their asks run, and nothing in them is degenerate.
-- One caveat: pom3a's two certify verdicts are seed-unstable, so
-  report them as tallies.
+We submit **pom3a, health and hr**, the three in our `step0`
+pre-registration. All of their asks run, and none of them give
+meaningless results. For pom3a we report the two seed-dependent answers
+as 5-seed counts.
 
-| domain | keep as main? | why |
+| domain | role | notes |
 |---|---|---|
-| pom3a | yes | Large and numeric. Two certify verdicts are seed-unstable (report the tally). |
-| health | yes | Stable on every check. |
-| hr | yes | Stable. The `TotalWorkingYears` leak is fixed (Nov 8, see below). |
-| nasa | extra | Its asks are fair at budget 20, but the clustering asks (1, 11) only make 2–3 groups. Good transfer evidence: 10 lines. |
-| readmit | extra | The yes/no goal makes choose/race hit the ceiling (100 vs 100), so they can't tell methods apart. |
-| commits | extra | Behaves almost the same as health (same knobs): it reproduces health, it isn't a new domain. |
+| pom3a | main | Large and all numeric. Two yes/no answers depend on the seed, so we report counts. |
+| health | main | Same results at every seed. |
+| hr | main | Same results at every seed. We removed the two columns that gave the answer away (Nov 8, below). |
+| nasa | extra | Fair at budget 20, but the clustering asks (1, 11) only find 2–3 groups. Needed 10 new lines. |
+| readmit | extra | The goal is yes/no, so both our chooser and random score 100 and cannot be told apart. |
+| commits | extra | Behaves almost like health (same settings), so it repeats health rather than adding a new domain. |
 
-## 5b. HR rerun after the Nov 8 changes
+## 6. hr rerun after the Nov 8 changes
 
-HR asks 2, 8 and 18 were reworded (see the note at the end of
-`requirements_hr.md`). Two tenure-in-disguise columns are now dropped, and fixes
-may only change pay, overtime, travel, level, role, training, stock
-and work-life balance (new `--change` option, 13 lines in `ezl/`, one
-new test, 35 tests in all). All 20 HR asks still run. What moved:
+We reworded hr asks 2, 8 and 18 (see the note at the end of
+`docs/requirements_hr.md`):
+- We now ignore the two columns that mostly measure time already spent
+  at the company.
+- A fix may now change only pay, overtime, travel, level, role,
+  training, stock and work-life balance. This is the new `--change`
+  option: 13 lines in `ezl/`, plus one new test (35 tests in all).
 
-- **The top driver** of tenure is now `JobLevel`, not `TotalWorkingYears`.
-- **Fixes** now read like "raise JobLevel above 1; MonthlyIncome above
-  10,239", with no "make them older".
-- **Guessing got harder, honestly:** with the leak gone, ask 20 over 5
-  seeds × 3 goals is ours 5, tie 9, average 1 (before: ours 3 seeds,
-  ties 2). The chooser lost all 5 races (before: lost 4, won 1). Asks 3
-  and 13 are still noise at every seed. The HR column above (marked †)
-  is the rerun, made with `experiments/sweep.py`.
+All 20 hr asks still run. What changed:
+- **The biggest factor** for years at the company is now `JobLevel`,
+  not `TotalWorkingYears`.
+- **Fixes** now look like "raise JobLevel above 1; MonthlyIncome above
+  10,239". They no longer suggest changing age.
+- **Guessing is harder.** Over 5 seeds × 3 goals, ask 20 is now ours
+  better 5, tie 9, average better 1 (before: ours better at 3 seeds,
+  tie at 2).
+- **The chooser** lost all 5 races (before: lost 4, won 1).
+- **Asks 3 and 13** are still noise at every seed.
 
-## 6. Before Nov 9 / Nov 30
+The hr column in section 3 (marked †) shows this rerun.
 
-1. ~~Fix the ask-10 tie-breaker~~ (done: a new commit after `domains6`, no retag).
-2. For any verdict quoted in the report, quote the 5-seed tally, not a single run.
-3. Tune the chooser before the LLM treatments: it loses everywhere, and uproj.md
-   expects that ("When ezr loses"). Two things to try: compare its
-   acquire-only pick against the tree-then-check pick, and try a larger `check`.
-4. Then run the LLM treatments 1–6 (not run yet).
+## 7. Still to do
+
+1. Done: fixed the ask 10 tie bug, in a new commit after `domains6`.
+   No tags were moved.
+2. In the final report, give the 5-seed count for every yes/no result,
+   not a single run.
+3. Tune the chooser before running the LLM treatments. It loses in
+   every domain, which the project brief expects ("When ezr loses").
+   Two ideas: compare the chooser's own pick with the pick after its
+   tree check, and try a larger `check` value.
+4. Run LLM treatments 1–6 (not started).
 
 ## Rerun
 
 ```sh
-make test                                   # current tag
-for t in $(seq 1 20); do git checkout -q step$t && python3 -B -m unittest discover -s tests -q; done; git checkout -q master
+make test                                   # tests at the current commit
+for t in $(seq 1 20); do git checkout -q step$t && python3 -B -m unittest discover -s tests -q; done; git checkout -q main
 make demos                                  # every ask, every domain, seed 1
-python3 -B experiments/sweep.py out.json hr          # every ask + the 5-seed verdicts, one domain
-python3 -B -m ezl ask10 --file=moot/optimize/process/pom3a.csv --seed=3     # one ask, another seed
+python3 -B experiments/sweep.py out.json hr # every ask, plus the yes/no asks at 5 seeds, one domain
+python3 -B -m ezl ask10 --file=data/raw/pom3a.csv --seed=3     # one ask at another seed
 python3 -B -m ezl ask07 ask10 ask17 --file=moot/optimize/process/nasa93dem.csv --budget=20 --fixed=rely,cplx
 ```
+
+Note: tags step1 to step20 have their own `tests/_data.py`, which reads
+pom3a from `moot/`. To rerun the per-tag loop, download MOOT first:
+`git clone --depth 1 https://github.com/timm/moot.git moot`.

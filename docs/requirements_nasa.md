@@ -1,16 +1,15 @@
 # Requirements: NASA project estimation office (`process/nasa93dem.csv`)
 
-**Client.** A cost-estimation manager at a NASA centre. Each row is
-one past software project (93 rows), described by COCOMO ratings
-(very low to extra high): precedentedness, flexibility, risk
-resolution, team cohesion, process maturity, required reliability,
-database size, complexity, reuse, documentation, time and storage
-limits, platform volatility, analyst and programmer capability,
-personnel continuity, application, platform and language experience,
-tools, multi-site work, schedule pressure. The outcomes: `Kloc+`
-(code delivered, more is better), `Effort-` (person-months, less is
-better), `Defects-` (fewer is better). Project id, centre, year and
-months are ignored.
+**Client.** A cost-estimation manager at a NASA centre. Each row is one
+past software project (93 rows), rated on the COCOMO scales (very low
+to extra high): how new the work is, flexibility, risk resolution, team
+cohesion, process maturity, required reliability, database size,
+complexity, reuse, documentation, time and storage limits, platform
+changes, analyst and programmer skill, staff turnover, application,
+platform and language experience, tools, multi-site work and schedule
+pressure. The goals are `Kloc+` (thousands of lines delivered, more is
+better), `Effort-` (person-months, less is better) and `Defects-`
+(fewer is better). We ignore the project id, centre, year and months.
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
@@ -35,6 +34,6 @@ months are ignored.
 | 19 | Which projects looked typical on paper but did much better or worse than their look-alikes? | spot |
 | 20 | Are your effort and defect guesses actually better than quoting our historical average? | race |
 
-Each ask is one demo: `make askNN D=nasa`. With 93 rows, the
-budgeted asks (7, 10, 17) can see almost every row, so they are weak
-tests here.
+Each ask is one command: `make askNN D=nasa`. With only 93 rows, the
+asks with a budget of 50 measured rows (7, 10 and 17) get to see more
+than half of the data, so they are weak tests here.

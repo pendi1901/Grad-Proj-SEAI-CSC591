@@ -1,14 +1,14 @@
-# Requirements: open-source health forecasting (`hpo/Health-ClosedIssues0000.csv`)
+# Requirements: open-source issue forecasting (`hpo/Health-ClosedIssues0000.csv`)
 
-**Client.** The analytics lead at an open-source foundation. They
-forecast how many issues each member project will close next
-quarter, using a random-forest forecaster, and they want it tuned.
-Each row is one forecaster setting that was tried (10,000 rows).
-The knobs: number of trees, split criterion, minimum samples per
-leaf, minimum impurity decrease, maximum depth. The outcomes:
-`MRE-` (relative error, lower is better), `ACC+` (accuracy, higher
-is better), `PRED40+` (share of forecasts within 40% of the truth,
-higher is better).
+**Client.** The analytics lead at an open-source foundation. They use a
+random-forest model to forecast how many issues each member project
+will close next quarter, and want to tune it. Each row is one model
+setting that was tried (10,000 rows). The settings are the number of
+trees, the split criterion, the minimum samples per leaf, the minimum
+impurity decrease and the maximum depth. The goals are `MRE-` (relative
+error, lower is better), `ACC+` (accuracy, higher is better) and
+`PRED40+` (the share of forecasts within 40% of the true value, higher
+is better).
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
@@ -33,4 +33,4 @@ higher is better).
 | 19 | Which settings look ordinary but did far better or worse than similar ones? | spot |
 | 20 | Are your accuracy guesses better than just quoting the average result? | race |
 
-Each ask is one demo: `make askNN D=health`.
+Each ask is one command: `make askNN D=health`.

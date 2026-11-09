@@ -1,47 +1,55 @@
-# Dataset analysis
+# Data set analysis
 
-The three MOOT data sets behind the three domains, why each was
-picked, and the candidates we looked at and set aside. The files are in
-`data/raw/`, copied unchanged from
+This file describes the three MOOT data sets we use for our three
+domains, why we picked each one, and the other data sets we tried and
+did not pick. The files in `data/raw/` are copied unchanged from
 [timm/moot](https://github.com/timm/moot/tree/master/optimize).
 
-MOOT's header row sets each column's role. A name that starts with a
-lowercase letter is symbolic; a trailing `+` or `-` marks a goal to
-maximise or minimise; everything else is a numeric input.
+In MOOT files, the header row sets each column's role:
+- a name starting with a lowercase letter is a text (symbolic) column;
+- a name ending in `+` is a goal to maximise, and `-` a goal to minimise;
+- every other column is a numeric input.
 
-## The three domains side by side
+## The three domains
 
 | | pom3a | health | hr |
 |---|---|---|---|
-| MOOT type | Software process model | Software project health | Behavioural |
+| MOOT category | Software process model | Software project health | Behavioural |
 | File | `pom3a.csv` | `Health-ClosedIssues0000.csv` | `WA_Fn-UseC_-HR-Employee-Attrition.csv` |
 | Client | agile delivery office | open-source foundation | staff retention office |
 | Rows × columns | 20,000 × 12 | 10,000 × 8 | 1,470 × 35 |
-| Inputs | 9, all numeric | 5: 4 numeric, 1 symbolic | 26 used: 18 numeric, 8 symbolic |
-| Goals | 3 (cost, score, idle: all minimise) | 3 (MRE minimise; accuracy, PRED40 maximise) | 3 (years at company, in role, with manager: all maximise) |
-| Where it comes from | a simulator (POM3) | logged hyperparameter runs of a random forest | real employee records (IBM sample) |
-| Rows used per run | 1,024 sampled (`cap`) | 1,024 sampled | 1,024 sampled |
+| Inputs | 9, all numeric | 5: 4 numeric, 1 text | 26 used: 18 numeric, 8 text |
+| Goals | cost, score, idle (all minimise) | MRE (minimise); accuracy, PRED40 (maximise) | years at company, in role, with manager (all maximise) |
+| What one row is | one simulated project | one tried setting of a random-forest model | one real employee (IBM sample data) |
+| Rows used per run | 1,024 (random sample) | 1,024 (random sample) | 1,024 (random sample) |
 
-They differ in what a row is (a simulated project, a model setting, a
-person), in size, and in column types. That matters: the brief warns
-against "three domains that are one domain wearing three hats".
+We chose three data sets that differ in what a row is, in size and in
+column types. The project brief warns against three domains that are
+really one domain, and these three are clearly different.
 
-## What each one needed
+## Notes on each domain
 
-**pom3a.** Domain 1: the ladder was built and measured on it. Every
-input is a 0–1 knob, so it is the cleanest case. Two certify verdicts
-(asks 3 and 13) flip with the random seed, so they are reported as
-5-seed tallies.
+**pom3a.** We built the 20 steps on this domain first. Every input is a
+number between 0 and 1, so it is the simplest of the three. Two of the
+yes/no asks (3 and 13) give different answers depending on the random
+seed, so we report how often each answer came up over 5 seeds.
 
-**health.** No new library code; only Makefile settings. The goals are
-squeezed near their best values (the chooser and random both score about
-99 out of 100), so methods are hard to tell apart here.
+**health.** This domain needed no new code in `ezl/`, only settings in
+the Makefile. Most settings score close to the best possible value
+(both our chooser and random picks score about 99 out of 100), so
+methods are hard to tell apart here.
 
-**hr.** The only domain with many symbolic columns. Six columns are
-ignored: an ID, three constants, and two that are tenure in disguise
-(`TotalWorkingYears`, `YearsSinceLastPromotion`). Those two dominated
-every tree until they were dropped on Nov 8. Fixes may only change
-columns the office controls (`--change`, set in the Makefile).
+**hr.** This is the only domain with many text columns. We ignore six
+columns:
+- an ID column;
+- three columns with the same value for everyone;
+- two columns (`TotalWorkingYears`, `YearsSinceLastPromotion`) that
+  mostly measure time already spent at the company, which is what we
+  predict. Until we dropped them on Nov 8, they decided almost every
+  answer.
+
+The fix asks may only change columns the office controls; these are
+listed in the Makefile as `--change`.
 
 ## Column tables
 
@@ -115,15 +123,16 @@ columns the office controls (`--change`, set in the Makefile).
 | `YearsSinceLastPromotion` | ignored (tenure leak) | numeric | 0 – 15 |
 | `YearsWithCurrManager+` | goal, maximise | numeric | 0 – 17 |
 
-## Candidates we looked at and set aside
+## Data sets we tried and did not pick
 
-| MOOT type | File | Ran all 20 asks? | Why not picked |
+| MOOT category | File | Ran all 20 asks? | Why we did not pick it |
 |---|---|---|---|
-| Software process model | `nasa93dem.csv` | yes (extra domain) | Only 93 rows. Kept as transfer evidence: it found a hang in the chooser. |
-| Human health data | `Medical_Data_and_Hospital_Readmissions.csv` | yes (extra domain) | Its one yes/no goal pins both the chooser and random at 100, so it cannot tell methods apart. |
-| Software project health | `Health-Commits0000.csv` | yes (extra domain) | The same kind of data as health: it would be the same domain twice. |
-| Software process model | `xomo_flight.csv` | yes (Nov 9) | The same family of model as nasa93dem and close to pom3a; size (KLOC) explains almost everything. |
-| Human health data | `Life_Expectancy_Data.csv` | yes (Nov 9) | A strong candidate (real data, clear verdicts), but health was already pre-registered at `step0`. |
+| Software process model | `nasa93dem.csv` | yes (extra domain) | Only 93 rows. We kept it as an extra domain because it exposed a bug in the chooser. |
+| Human health data | `Medical_Data_and_Hospital_Readmissions.csv` | yes (extra domain) | It has one yes/no goal, and both our chooser and random picks score 100, so it cannot show which method is better. |
+| Software project health | `Health-Commits0000.csv` | yes (extra domain) | It has the same columns as health, so it would count as the same domain twice. |
+| Software process model | `xomo_flight.csv` | yes (Nov 9) | It is the same kind of model as nasa93dem and similar to pom3a, and project size alone explains most of the results. |
+| Human health data | `Life_Expectancy_Data.csv` | yes (Nov 9) | A good candidate (real data, clear results), but health was already in our pre-registration at `step0`. |
 
-The three extra domains are still in the repo (`make demo D=nasa`, and so
-on; they read from a MOOT clone made on first use).
+The three extra domains are still in the repo (for example
+`make demo D=nasa`). They read from a copy of MOOT that is downloaded
+the first time you run them.

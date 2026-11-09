@@ -1,15 +1,17 @@
 # Requirements: staff retention office (`behavior_data/WA_Fn-UseC_-HR-Employee-Attrition.csv`)
 
-**Client.** The head of a company's staff retention office. Each row
-is one employee (1,470 rows): age, travel, department, distance from
-home, education, satisfaction scores, job level and role, income,
-overtime, stock options, training, work-life balance, and so on. The
-outcomes: `YearsAtCompany+`, `YearsInCurrentRole+`,
-`YearsWithCurrManager+` (higher is better: people who stay).
-ID and constant columns (`EmployeeNumber`, `EmployeeCount`,
-`StandardHours`, `over18`) are ignored, and so are two columns that
-are really tenure in disguise (`TotalWorkingYears`,
-`YearsSinceLastPromotion`).
+**Client.** The head of a company's staff retention office. Each row is
+one employee (1,470 rows): age, travel, department, distance from home,
+education, satisfaction scores, job level and role, income, overtime,
+stock options, training, work-life balance and more. The goals are
+`YearsAtCompany+`, `YearsInCurrentRole+` and `YearsWithCurrManager+`
+(higher is better: the person stays longer).
+
+We ignore the ID column and three columns that have the same value for
+everyone (`EmployeeNumber`, `EmployeeCount`, `StandardHours`,
+`over18`). We also ignore `TotalWorkingYears` and
+`YearsSinceLastPromotion`, because they mostly measure how long someone
+has already been at the company, which is what we are trying to predict.
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
@@ -34,11 +36,16 @@ are really tenure in disguise (`TotalWorkingYears`,
 | 19 | Who looked like a typical stayer on paper but left much sooner (or stayed much longer) than their look-alikes? | spot |
 | 20 | Are your tenure guesses better than just quoting the company average? | race |
 
-Each ask is one demo: `make askNN D=hr`.
+Each ask is one command: `make askNN D=hr`.
 
-**Amended Nov 8 (after step 20; wording only, skills unchanged).**
-Asks 2, 8 and 18 were reworded. Ask 2 now says "only what we know on
-day one", so the two tenure-in-disguise columns are dropped (they
-dominated every tree: a leak). Asks 8 and 18 now name the things the
-office can actually change, so a fix never says "make them older" or
-changes gender or marital status. The original wording is at tag `step0`.
+**Changed on Nov 8 (wording only; every skill is unchanged).** We
+reworded asks 2, 8 and 18.
+- Ask 2 now says "using only what we know on day one". To match this,
+  we dropped the two columns that mostly measure time already spent at
+  the company. Before, they decided almost every answer.
+- Asks 8 and 18 now list what the office can actually change (pay,
+  overtime, travel, level or role). Before, a suggested fix could
+  include things nobody can change, such as age, gender or marital
+  status.
+
+The original wording is at tag `step0`.

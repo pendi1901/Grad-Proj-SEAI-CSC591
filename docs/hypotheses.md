@@ -69,13 +69,17 @@ hyperparameter logs vs people records), and in column types (all
 numeric vs mixed symbolic). Pure Python on the larger sets samples
 at most 1,024 rows per run (`cap`), recorded as a threat to validity.
 
-## Amendment (Nov 6, after step 20)
+## Added after step 20 (Nov 6)
 
-Three more domains were added after the ladder was built: **nasa**
-(`process/nasa93dem.csv`), **readmit**
+Everything above this section was committed at tag `step0`, before we
+wrote any code. This section was added later.
+
+After finishing step 20 we tried the same code on three more data sets:
+**nasa** (`process/nasa93dem.csv`), **readmit**
 (`health_data/Medical_Data_and_Hospital_Readmissions.csv`) and
-**commits** (`hpo/Health-Commits0000.csv`). Because they came after
-the code, they are a transfer test, not part of the pre-registration.
-The win conditions above apply to them unchanged. Any code they force
-into `ezl/` is counted as their transfer cost
-(`git diff --numstat step20 domains6 -- ezl`).
+**commits** (`hpo/Health-Commits0000.csv`). We picked these after
+the code was written, so they are not part of the pre-registration.
+We use them only to measure how well the code carries over to new
+data. The win conditions above apply to them unchanged. Any lines we
+had to add to `ezl/` to make them work count as their cost, measured
+with `git diff --numstat step20 domains6 -- ezl`.

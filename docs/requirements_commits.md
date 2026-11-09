@@ -1,19 +1,17 @@
 # Requirements: open-source commit forecasting (`hpo/Health-Commits0000.csv`)
 
-**Client.** A program manager at an open-source fund who decides
-which projects get maintainer grants. They forecast each project's
-commit activity next quarter with a random-forest forecaster, and
-want to know which forecaster settings to trust. Each row is one
-setting that was tried (10,000 rows): number of trees, split
-criterion, minimum samples per leaf, minimum impurity decrease,
-maximum depth. The outcomes: `MRE-` (relative error), `ACC+`
-(accuracy), `PRED40+` (share of forecasts within 40% of the true
-commit count).
+**Client.** A program manager at an open-source fund who decides which
+projects get maintainer grants. They use a random-forest model to
+forecast each project's commits next quarter, and want to know which
+model settings to trust. Each row is one setting that was tried
+(10,000 rows): the number of trees, the split criterion, the minimum
+samples per leaf, the minimum impurity decrease and the maximum depth.
+The goals are `MRE-` (relative error), `ACC+` (accuracy) and `PRED40+`
+(the share of forecasts within 40% of the true commit count).
 
-Caution: these are the same knobs as the `health` domain
-(closed-issue forecasting), on a different target. It tests whether
-results carry over between two forecasting jobs. It is not a new
-kind of data, and the report should say so.
+Note: these are the same settings as the health domain, with a
+different thing being forecast. This domain checks whether results
+carry over between two forecasting jobs. It is not a new kind of data.
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
@@ -38,4 +36,4 @@ kind of data, and the report should say so.
 | 19 | Which settings did far better or worse than similar ones? | spot |
 | 20 | Are your accuracy guesses better than quoting the average result? | race |
 
-Each ask is one demo: `make askNN D=commits`.
+Each ask is one command: `make askNN D=commits`.

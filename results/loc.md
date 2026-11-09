@@ -1,8 +1,8 @@
-# New code per step (treatment 7)
+# New lines of code per step
 
-Added lines in `ezl/` between consecutive step tags, from
-`git diff --numstat step(i-1) step(i) -- ezl`. Regenerate with `make loc`
-(`experiments/loc.sh`).
+For each step tag, this counts the lines added to `ezl/` since the
+previous tag, using `git diff --numstat step(i-1) step(i) -- ezl`. To
+regenerate it, run `make loc` (which runs `experiments/loc.sh`).
 
 ```
 step1    167  28.3%
@@ -28,6 +28,7 @@ step20    16   2.7%
 total    590
 ```
 
-Steps 1–10 add 433 lines (step 1 alone 167); steps 11–20 add 157. `same`
-calls steps 11–20 smaller than steps 1–10 (Cliff's δ 0.72), and still
-does with step 1 left out (δ 0.69).
+Steps 1–10 added 433 lines (step 1 alone added 167). Steps 11–20 added
+157. The `same` test says steps 11–20 needed less code than steps 1–10
+(Cliff's delta 0.72), and it still says so when step 1 is left out
+(0.69).

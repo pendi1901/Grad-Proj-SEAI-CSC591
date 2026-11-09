@@ -1,12 +1,12 @@
 # Requirements: agile delivery office (`process/pom3a.csv`)
 
 **Client.** The head of delivery at an agile consultancy. Each row is
-one simulated project (POM3 requirements-prioritisation model,
-20,000 rows). The knobs: team culture, system criticality,
-criticality modifier, how many requirements are known up front,
-inter-dependency, requirements dynamism, size, planning effort,
-team size. The outcomes: `Cost-`, `Score-`, `Idle-` (lower is better
-for all three, as the data marks them).
+one simulated project from the POM3 model (20,000 rows). The settings
+are team culture, how safety-critical the system is, the criticality
+modifier, how many requirements are known at the start, how much the
+requirements depend on each other, how often they change, project
+size, planning effort and team size. The goals are `Cost-`, `Score-`
+and `Idle-`. The data marks all three as lower-is-better.
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
@@ -31,9 +31,9 @@ for all three, as the data marks them).
 | 19 | Which projects looked perfectly normal on paper but turned out much better or worse than their look-alikes? | spot |
 | 20 | Are your cost and idle guesses actually better than just quoting our average? | race |
 
-Each ask is one demo: `make askNN D=pom3a` (for example `make ask07 D=pom3a`).
+Each ask is one command: `make askNN D=pom3a`, for example `make ask07 D=pom3a`.
 
-**Amended Nov 8 (after step 20; wording only, skill unchanged).**
-Ask 1 said "on target", which was vague. The data marks `Score-` as
-lower-is-better, so the ask now just says "lowest on cost, score and
-idle time". The original wording is at tag `step0`.
+**Changed on Nov 8 (wording only; the skill is unchanged).** Ask 1 used
+to say "on target", which was unclear. The data marks `Score-` as
+lower-is-better, so ask 1 now says "lowest on cost, score and idle
+time". The original wording is at tag `step0`.

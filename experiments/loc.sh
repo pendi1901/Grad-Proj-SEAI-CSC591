@@ -1,5 +1,5 @@
 #!/bin/sh
-# New lines in ezl/ added at each step tag: the histogram's y-axis.
+# Counts the lines added to ezl/ at each step tag (the y-axis of our results chart).
 # Counts every added line (blank and comment lines too), as git diff --numstat does.
 n=$(git tag -l 'step*' | sed 's/step//' | sort -n | tail -1)
 for i in $(seq 1 "$n"); do

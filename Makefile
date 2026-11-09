@@ -39,7 +39,7 @@ demos: ## every ask on all six domains
 test: ## unit tests
 	python3 -B -m unittest discover -s tests -q
 
-loc: ## new lines of code per step tag (the histogram)
+loc: ## new lines of code per step tag
 	sh experiments/loc.sh
 
 $(MOOT):

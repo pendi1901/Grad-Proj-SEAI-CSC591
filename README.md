@@ -1,32 +1,37 @@
-# ezl: the shrinking-code ladder (CSC 591, six domains)
+# Shrinking-code experiment (CSC 591, group G2)
 
-Twenty customer asks, built as twenty git-tagged steps on one small
-plain-Python library (`ezl/`, standard library only), run on six
-MOOT data sets. Does each new skill need less new code than the last?
+We built 20 features ("asks") one at a time, as 20 git-tagged steps, on
+one small Python library (`ezl/`, standard library only). We count the
+new lines of code each step needed, to test whether later features cost
+less than earlier ones. We run the same code on three main data sets
+(pom3a, health, hr) and three extra ones (nasa, readmit, commits).
 
-- Requirements (3 submitted domains + 3 extra, × 20 asks): [docs/requirements.md](docs/requirements.md)
-- Pre-registered claim (tag `step0`, before any code): [docs/hypotheses.md](docs/hypotheses.md)
-- Nov 9 initial deliverable, one page: [deliverables/initial_submission.md](deliverables/initial_submission.md)
-- Datasets, and why these three: [docs/dataset_analysis.md](docs/dataset_analysis.md)
-- New code per step: [results/loc.md](results/loc.md) · transfer cost: [results/transfer.md](results/transfer.md)
-- Test report (every tag, every domain, 5 seeds): [results/test-report.md](results/test-report.md)
+- Requirements, 20 asks per domain: [docs/requirements.md](docs/requirements.md)
+- Hypotheses and win conditions, committed at tag `step0` before any code: [docs/hypotheses.md](docs/hypotheses.md)
+- Nov 9 initial deliverable: [deliverables/initial_submission.md](deliverables/initial_submission.md)
+- The data sets and why we chose them: [docs/dataset_analysis.md](docs/dataset_analysis.md)
+- New lines of code per step: [results/loc.md](results/loc.md)
+- Code needed for each new domain: [results/transfer.md](results/transfer.md)
+- Test results (every tag, every domain, 5 random seeds): [results/test-report.md](results/test-report.md)
 
-## Run it
+## How to run it
 
-Needs Python 3.9+ and git; no packages. The three main data sets are in `data/raw/`.
-The extra domains (nasa, readmit, commits) clone MOOT into `./moot` on first use.
+You need Python 3.9 or later and git. No packages need installing. The
+three main data sets are in `data/raw/`. The extra domains (nasa,
+readmit, commits) download the MOOT data repository into `./moot` the
+first time you run them.
 
 ```sh
-make test                 # 35 unit tests, ~40 s
-make ask07                # one ask, on pom3a (the default domain)
-make ask07 D=health       # other domains: D=pom3a|health|hr|nasa|readmit|commits
-make demo D=hr            # all twenty asks on one domain
-make demos                # all twenty asks on all six domains
-make loc                  # new lines of code per step tag: the histogram
+make test                 # run the 35 unit tests (about 40 s)
+make ask07                # run ask 7 on pom3a (the default domain)
+make ask07 D=health       # run ask 7 on another domain: D=pom3a|health|hr|nasa|readmit|commits
+make demo D=hr            # run all 20 asks on one domain
+make demos                # run all 20 asks on all six domains
+make loc                  # print new lines of code per step tag
 make                      # list every ask
 ```
 
-| ask | skill | demo | | ask | skill | demo |
+| ask | skill | command | | ask | skill | command |
 |---:|---|---|---|---:|---|---|
 | 1 | remember | `make ask01` | | 11 | remember | `make ask11` |
 | 2 | guess | `make ask02` | | 12 | guess | `make ask12` |
@@ -39,26 +44,32 @@ make                      # list every ask
 | 9 | spot | `make ask09` | | 19 | spot | `make ask19` |
 | 10 | race | `make ask10` | | 20 | race | `make ask20` |
 
-Add `D=health`, `D=hr`, `D=nasa`, `D=readmit` or `D=commits` to any of them. Any setting in
-`ezl/core.py:the` can be overridden: `python3 -B -m ezl ask07 --budget=30 --file=...`.
+Add `D=<domain>` to any of these commands to change the data set. Any
+setting in `the` (in `ezl/core.py`) can be changed on the command line,
+for example `python3 -B -m ezl ask07 --budget=30 --file=...`.
 
-## Layout
+## What is where
 
-| path | what |
+| path | contents |
 |---|---|
-| `ezl/core.py` | step 1: columns, tables, distances, clustering (everything shared) |
-| `ezl/sNN_*.py` | step NN: one module per ask; it imports from earlier steps |
-| `ezl/__main__.py` | runs any `askNN` function it finds, so a new step needs no wiring |
-| `tests/test_sNN.py` | one test file per step |
-| `experiments/loc.sh` | per-tag `git diff --numstat` over `ezl/` (`make loc`) |
-| `experiments/sweep.py` | every ask on every domain, then the verdict asks over 5 seeds |
+| `ezl/core.py` | step 1: reading data, columns, distances, clustering. Every later step uses it. |
+| `ezl/sNN_*.py` | step NN: one file per ask, importing from earlier steps |
+| `ezl/__main__.py` | runs any function named `askNN`, so a new step needs no extra setup |
+| `tests/test_sNN.py` | the tests for step NN |
+| `experiments/loc.sh` | counts new lines in `ezl/` between step tags (`make loc`) |
+| `experiments/sweep.py` | runs every ask on every domain, then reruns the yes/no asks at 5 seeds |
 | `data/raw/` | the three main MOOT data sets, unchanged |
-| `docs/` | hypotheses (pre-registered), requirements, dataset analysis |
-| `results/` | new code per step, transfer cost, test report |
-| `deliverables/` | the Nov 9 one-pager |
-| `Makefile` | per-domain data paths and settings (the only per-domain code) |
+| `docs/` | hypotheses, requirements, data set analysis |
+| `results/` | lines of code per step, cost per new domain, test results |
+| `deliverables/` | the Nov 9 submission |
+| `Makefile` | the file path and settings for each domain. This is the only place domains differ. |
 
-## New code per step (`make loc`, treatment 7: hand-built, reuse as much as possible)
+## New lines of code per step
+
+These counts are for our current build, where each step reuses earlier
+steps as much as possible. The code was written with Claude Code (see
+"AI use" in the [initial deliverable](deliverables/initial_submission.md)).
+Source: `make loc`.
 
 ```
 step1    167  28.3%    step11    11   1.9%

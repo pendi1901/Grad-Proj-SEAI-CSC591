@@ -1,12 +1,12 @@
 # Requirements: hospital readmissions team (`health_data/Medical_Data_and_Hospital_Readmissions.csv`)
 
-**Client.** The discharge-planning lead at a hospital's diabetes
-unit. Each row is one patient stay (25,000 rows): days in hospital,
-lab tests, procedures, medications, prior outpatient, emergency and
-inpatient visits, number of diagnoses, plus yes/no flags for
+**Client.** The discharge-planning lead at a hospital's diabetes unit.
+Each row is one patient stay (25,000 rows): days in hospital, lab
+tests, procedures, medications, earlier outpatient, emergency and
+inpatient visits, number of diagnoses, and yes/no columns for
 demographics, payer, specialty, common diagnoses and each diabetes
-drug. One outcome: `Readmitted-` (1 = came back, 0 = did not; lower
-is better).
+drug. There is one goal, `Readmitted-` (1 = the patient came back,
+0 = they did not; lower is better).
 
 | # | The client asks... | skill |
 |--:|--------------------|-------|
@@ -31,5 +31,5 @@ is better).
 | 19 | Which patients looked low-risk on paper but came back anyway (or the reverse)? | spot |
 | 20 | Are your risk guesses better than just quoting our overall readmission rate? | race |
 
-Each ask is one demo: `make askNN D=readmit`. The single goal is
-yes/no, so "score" here is simply the readmission rate.
+Each ask is one command: `make askNN D=readmit`. Because the only goal
+is yes/no, the "score" in this domain is just the readmission rate.
