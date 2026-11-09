@@ -7,7 +7,7 @@ MOOT data sets. Does each new skill need less new code than the last?
 - Requirements (6 domains × 20 asks): [docs/requirements.md](docs/requirements.md)
 - Pre-registered claim (tag `step0`, before any code): [docs/hypotheses.md](docs/hypotheses.md)
 - Nov 9 initial deliverable, one page: [docs/nov9.md](docs/nov9.md)
-- Test report (every tag, every domain, 5 seeds): [docs/test-report.md](docs/test-report.md)
+- Test report (every tag, every domain, 5 seeds): [results/test-report.md](results/test-report.md)
 
 ## Run it
 
@@ -47,7 +47,7 @@ Add `D=health`, `D=hr`, `D=nasa`, `D=readmit` or `D=commits` to any of them. Any
 | `ezl/sNN_*.py` | step NN: one module per ask; it imports from earlier steps |
 | `ezl/__main__.py` | runs any `askNN` function it finds, so a new step needs no wiring |
 | `tests/test_sNN.py` | one test file per step |
-| `sh/loc.sh` | per-tag `git diff --numstat` over `ezl/` |
+| `experiments/loc.sh` | per-tag `git diff --numstat` over `ezl/` |
 | `Makefile` | per-domain data paths and settings (the only per-domain code) |
 
 ## New code per step (`make loc`, treatment 7: hand-built, reuse as much as possible)

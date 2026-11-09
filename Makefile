@@ -40,7 +40,7 @@ test: ## unit tests
 	python3 -B -m unittest discover -s tests -q
 
 loc: ## new lines of code per step tag (the histogram)
-	sh sh/loc.sh
+	sh experiments/loc.sh
 
 $(MOOT):
 	git clone --depth 1 https://github.com/timm/moot.git $(MOOT)

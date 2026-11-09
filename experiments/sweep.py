@@ -1,5 +1,5 @@
 """Run every ask on every domain (seed 1), then the verdict asks over seeds 1-5.
-usage: python3 -B sh/sweep.py OUT.json [domain ...]   (from the repo root)"""
+usage: python3 -B experiments/sweep.py OUT.json [domain ...]   (from the repo root)"""
 import io, json, random, re, shlex, sys, time, traceback
 from contextlib import redirect_stdout
 sys.path.insert(0, ".")

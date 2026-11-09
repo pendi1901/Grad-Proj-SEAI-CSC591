@@ -1,7 +1,7 @@
 # Test report (Nov 6)
 
 What was run, what passed, and what the results do and don't support.
-All runs used the repo at tag `domains6`, except the HR rerun (†), made after commit `355679b`. The sweep script is `sh/sweep.py`; raw outputs are not kept, but the
+All runs used the repo at tag `domains6`, except the HR rerun (†), made after commit `355679b`. The sweep script is `experiments/sweep.py`; raw outputs are not kept, but the
 commands below rerun everything.
 
 ## 1. Does every step stand on its own?
@@ -146,7 +146,7 @@ new test, 35 tests in all). All 20 HR asks still run. What moved:
   seeds × 3 goals is ours 5, tie 9, average 1 (before: ours 3 seeds,
   ties 2). The chooser lost all 5 races (before: lost 4, won 1). Asks 3
   and 13 are still noise at every seed. The HR column above (marked †)
-  is the rerun, made with `sh/sweep.py`.
+  is the rerun, made with `experiments/sweep.py`.
 
 ## 6. Before Nov 9 / Nov 30
 
@@ -163,7 +163,7 @@ new test, 35 tests in all). All 20 HR asks still run. What moved:
 make test                                   # current tag
 for t in $(seq 1 20); do git checkout -q step$t && python3 -B -m unittest discover -s tests -q; done; git checkout -q master
 make demos                                  # every ask, every domain, seed 1
-python3 -B sh/sweep.py out.json hr          # every ask + the 5-seed verdicts, one domain
+python3 -B experiments/sweep.py out.json hr          # every ask + the 5-seed verdicts, one domain
 python3 -B -m ezl ask10 --file=moot/optimize/process/pom3a.csv --seed=3     # one ask, another seed
 python3 -B -m ezl ask07 ask10 ask17 --file=moot/optimize/process/nasa93dem.csv --budget=20 --fixed=rely,cplx
 ```

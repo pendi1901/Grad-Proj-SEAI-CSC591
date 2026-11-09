@@ -19,7 +19,7 @@ Written and committed (tag `step0`) before any code.
 
 - **Metric:** new lines of code per step. For treatment 7 (hand-built
   ladder) this is `git diff --numstat step(i-1) step(i) -- ezl`
-  (`sh/loc.sh`). For LLM treatments 1–6 it is the line count of what
+  (`experiments/loc.sh`). For LLM treatments 1–6 it is the line count of what
   the LLM returns for skill i. A step only counts if its demo runs
   and its test passes.
 - **Baseline:** the no-reuse treatments (1, 3, 5): an LLM asked for
