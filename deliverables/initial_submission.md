@@ -1,6 +1,6 @@
 # CSC 591 project, initial deliverable (Nov 9)
 
-**Group:** _names_ · **Repo:** _URL_ (public; tags `step0`..`step20`)
+**Group:** _names_ · **Repo:** https://github.com/pendi1901/Grad-Proj-SEAI-CSC591 (tags `step0`..`step20`)
 
 ## 1. The pre-registered claim
 
@@ -47,10 +47,10 @@ cover the ten skills once, asks 11–20 cover them again).
 - 20 tagged steps; `make test` runs 35 tests; `make askNN D=pom3a`
   runs any ask in one command. The same commands run on every
   other domain (`D=health|hr|nasa|readmit|commits`).
-- **New LOC per step** (`make loc`): step 1 = 167 (28%); steps 2–10 =
+- **New LOC per step** (`make loc`; `results/loc.md`): step 1 = 167 (28%); steps 2–10 =
   14–58; steps 11–20 = 9–21. `same` says steps 11–20 < steps 1–10
   (Cliff's δ 0.72), and still says so with step 1 left out (δ 0.69).
-- **Transfer so far:** domain 2 (health) added **0 lines** to `ezl/`
+- **Transfer so far** (`results/transfer.md`): domain 2 (health) added **0 lines** to `ezl/`
   (2 lines of Makefile settings). Domain 3 (hr) first needed 0 lines
   plus 3 lines of settings and the `drop` option written in step 1;
   after the Nov 8 rewording of asks 8 and 18 ("change only what the

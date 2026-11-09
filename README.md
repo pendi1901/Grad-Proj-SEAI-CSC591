@@ -4,14 +4,17 @@ Twenty customer asks, built as twenty git-tagged steps on one small
 plain-Python library (`ezl/`, standard library only), run on six
 MOOT data sets. Does each new skill need less new code than the last?
 
-- Requirements (6 domains × 20 asks): [docs/requirements.md](docs/requirements.md)
+- Requirements (3 submitted domains + 3 extra, × 20 asks): [docs/requirements.md](docs/requirements.md)
 - Pre-registered claim (tag `step0`, before any code): [docs/hypotheses.md](docs/hypotheses.md)
-- Nov 9 initial deliverable, one page: [docs/nov9.md](docs/nov9.md)
+- Nov 9 initial deliverable, one page: [deliverables/initial_submission.md](deliverables/initial_submission.md)
+- Datasets, and why these three: [docs/dataset_analysis.md](docs/dataset_analysis.md)
+- New code per step: [results/loc.md](results/loc.md) · transfer cost: [results/transfer.md](results/transfer.md)
 - Test report (every tag, every domain, 5 seeds): [results/test-report.md](results/test-report.md)
 
 ## Run it
 
-Needs Python 3.9+ and git. The first command clones MOOT into `./moot`.
+Needs Python 3.9+ and git; no packages. The three main data sets are in `data/raw/`.
+The extra domains (nasa, readmit, commits) clone MOOT into `./moot` on first use.
 
 ```sh
 make test                 # 35 unit tests, ~40 s
@@ -47,7 +50,12 @@ Add `D=health`, `D=hr`, `D=nasa`, `D=readmit` or `D=commits` to any of them. Any
 | `ezl/sNN_*.py` | step NN: one module per ask; it imports from earlier steps |
 | `ezl/__main__.py` | runs any `askNN` function it finds, so a new step needs no wiring |
 | `tests/test_sNN.py` | one test file per step |
-| `experiments/loc.sh` | per-tag `git diff --numstat` over `ezl/` |
+| `experiments/loc.sh` | per-tag `git diff --numstat` over `ezl/` (`make loc`) |
+| `experiments/sweep.py` | every ask on every domain, then the verdict asks over 5 seeds |
+| `data/raw/` | the three main MOOT data sets, unchanged |
+| `docs/` | hypotheses (pre-registered), requirements, dataset analysis |
+| `results/` | new code per step, transfer cost, test report |
+| `deliverables/` | the Nov 9 one-pager |
 | `Makefile` | per-domain data paths and settings (the only per-domain code) |
 
 ## New code per step (`make loc`, treatment 7: hand-built, reuse as much as possible)
