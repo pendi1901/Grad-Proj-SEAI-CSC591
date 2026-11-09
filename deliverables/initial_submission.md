@@ -89,25 +89,8 @@ asks each for three extra domains (`requirements_nasa.md`,
     track how long someone has been at the company, so they gave the
     answer away. We dropped both; `JobLevel` is now the biggest factor.
 
-## 4. AI use
+## 4. Acknowledgment
 
-We used Claude Code (Anthropic's Claude, Opus model) for this
-deliverable:
-- It drafted the 20 asks per domain, which we reviewed and changed
-  (for example the hr wording on Nov 8).
-- It wrote the code in `ezl/`, the tests and the experiment scripts.
-- It ran the tests and the 5-seed runs, and drafted these documents.
-
-We chose the domains, decided which changes to make, and checked the
-results.
-
-Errors found and fixed so far:
-- the chooser looped forever on small data;
-- TRUE/FALSE text crashed numeric columns;
-- the drift ask failed on data smaller than its window;
-- ask 10 called a tie a win when the medians were equal;
-- one rerun silently ignored the seed we passed;
-- the hr data contained two columns that gave the answer away.
-
-So far the code was written with Claude Code, not by hand, so this build
-is not yet a human-only treatment 7.
+Claude Code generated the implementation, tests and scripts and helped
+with requirements, runs and documentation; our team reviewed and corrected
+the work. This prototype is not the human-only treatment 7.

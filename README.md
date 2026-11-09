@@ -125,7 +125,7 @@ python3 -B -m ezl ask07 --file=data/raw/pom3a.csv --budget=30 --seed=2
 
 These counts are for our current build, where each step reuses earlier
 steps as much as possible. The code was written with Claude Code (see
-"AI use" in the [initial deliverable](deliverables/initial_submission.md)).
+"Acknowledgment" in the [initial deliverable](deliverables/initial_submission.md)).
 Source: `make loc`.
 
 ```
