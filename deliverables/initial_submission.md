@@ -91,6 +91,6 @@ asks each for three extra domains (`requirements_nasa.md`,
 
 ## 4. Acknowledgment
 
-Claude Code generated the implementation, tests and scripts and helped
+Claude Code helped us in partly generating the implementation, tests and scripts and helped
 with requirements, runs and documentation; our team reviewed and corrected
-the work. This prototype is not the human-only treatment 7.
+the work.
