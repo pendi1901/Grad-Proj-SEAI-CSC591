@@ -14,22 +14,83 @@ less than earlier ones. We run the same code on three main data sets
 - Code needed for each new domain: [results/transfer.md](results/transfer.md)
 - Test results (every tag, every domain, 5 random seeds): [results/test-report.md](results/test-report.md)
 
-## How to run it
+## How to run
 
-You need Python 3.9 or later and git. No packages need installing. The
-three main data sets are in `data/raw/`. The extra domains (nasa,
-readmit, commits) download the MOOT data repository into `./moot` the
-first time you run them.
+### 1. What you need
+
+- Python 3.9 or later (`python3 --version`)
+- git and make (both come with macOS and most Linux systems)
+
+Nothing else needs installing: the code only uses Python's standard
+library, and the data for pom3a, health and hr is in `data/raw/`.
+
+### 2. Get the code
 
 ```sh
-make test                 # run the 35 unit tests (about 40 s)
-make ask07                # run ask 7 on pom3a (the default domain)
-make ask07 D=health       # run ask 7 on another domain: D=pom3a|health|hr|nasa|readmit|commits
-make demo D=hr            # run all 20 asks on one domain
-make demos                # run all 20 asks on all six domains
-make loc                  # print new lines of code per step tag
-make                      # list every ask
+git clone https://github.com/pendi1901/Grad-Proj-SEAI-CSC591.git
+cd Grad-Proj-SEAI-CSC591
 ```
+
+### 3. Run the tests
+
+```sh
+make test
+```
+
+This runs 35 unit tests in about 40 seconds. The last line should say `OK`.
+
+### 4. Run one ask
+
+```sh
+make ask01            # ask 1 on pom3a (the default domain)
+make ask07 D=hr       # ask 7 on hr
+```
+
+`make` with no arguments lists all 20 asks. Each ask's question is in
+`docs/requirements_<domain>.md`. Domains: `pom3a`, `health`, `hr`, and
+the extras `nasa`, `readmit` and `commits` (the extras download MOOT
+into `./moot` the first time).
+
+### 5. Run all 20 asks on one domain
+
+```sh
+make demo             # pom3a
+make demo D=health
+make demos            # all six domains, a few minutes
+```
+
+### 6. Check a single step
+
+Each step is a git tag (`step1` to `step20`). To see the code and run
+the tests as they were at that step:
+
+```sh
+git checkout step5
+make test
+git checkout main
+```
+
+Older tags read pom3a from `./moot`, so the first `make test` there
+downloads it.
+
+### 7. Count new lines per step
+
+```sh
+make loc
+```
+
+This prints how many lines each step added to `ezl/`.
+
+### Changing settings
+
+Any setting in `the` (in `ezl/core.py`) can be changed on the command
+line, for example:
+
+```sh
+python3 -B -m ezl ask07 --file=data/raw/pom3a.csv --budget=30 --seed=2
+```
+
+### All 20 asks
 
 | ask | skill | command | | ask | skill | command |
 |---:|---|---|---|---:|---|---|
@@ -43,10 +104,6 @@ make                      # list every ask
 | 8 | fix | `make ask08` | | 18 | fix | `make ask18` |
 | 9 | spot | `make ask09` | | 19 | spot | `make ask19` |
 | 10 | race | `make ask10` | | 20 | race | `make ask20` |
-
-Add `D=<domain>` to any of these commands to change the data set. Any
-setting in `the` (in `ezl/core.py`) can be changed on the command line,
-for example `python3 -B -m ezl ask07 --budget=30 --file=...`.
 
 ## What is where
 
