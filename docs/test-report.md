@@ -1,7 +1,7 @@
 # Test report (Nov 6)
 
 What was run, what passed, and what the results do and don't support.
-All runs used the repo at tag `domains6`, except the HR rerun (†), made after commit `f775e88`. The sweep script is `sh/sweep.py`; raw outputs are not kept, but the
+All runs used the repo at tag `domains6`, except the HR rerun (†), made after commit `355679b`. The sweep script is `sh/sweep.py`; raw outputs are not kept, but the
 commands below rerun everything.
 
 ## 1. Does every step stand on its own?
@@ -134,7 +134,7 @@ intended behaviour.
 ## 5b. HR rerun after the Nov 8 changes
 
 HR asks 2, 8 and 18 were reworded (see the note at the end of
-`req-hr.md`). Two tenure-in-disguise columns are now dropped, and fixes
+`requirements_hr.md`). Two tenure-in-disguise columns are now dropped, and fixes
 may only change pay, overtime, travel, level, role, training, stock
 and work-life balance (new `--change` option, 13 lines in `ezl/`, one
 new test, 35 tests in all). All 20 HR asks still run. What moved:

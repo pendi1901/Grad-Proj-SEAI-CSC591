@@ -15,7 +15,7 @@
 > whatever library sits underneath.
 
 **Win conditions** (committed at `step0`, before code; full text in
-`docs/claim.md`). Metric: new LOC per step, counted only for steps
+`docs/hypotheses.md`). Metric: new LOC per step, counted only for steps
 whose demo runs and whose test passes. Baseline: the no-reuse
 treatments 1, 3, 5. Every comparison uses `same` (Cohen + KS +
 Cliff's delta). *Timm wins* a domain if `same` says steps 11–20 need
@@ -37,8 +37,8 @@ role, with manager).
 
 ## 2. Requirements (3 × 20 asks, awaiting the lecturer's OK)
 
-`docs/req-pom3a.md`, `docs/req-health.md`, `docs/req-hr.md` (plus
-extra domains `req-nasa.md`, `req-readmit.md`, `req-commits.md`): twenty
+`docs/requirements_pom3a.md`, `docs/requirements_health.md`, `docs/requirements_hr.md` (plus
+extra domains `requirements_nasa.md`, `requirements_readmit.md`, `requirements_commits.md`): twenty
 asks each, in the client's words, each tagged with its skill (asks 1–10
 cover the ten skills once, asks 11–20 cover them again).
 

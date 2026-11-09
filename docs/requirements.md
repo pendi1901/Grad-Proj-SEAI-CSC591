@@ -9,12 +9,12 @@ domains test whether the domain-1 machinery transfers.
 
 | domain | client | data | doc |
 |--------|--------|------|-----|
-| pom3a  | agile delivery office | `process/pom3a.csv` (20,000 × 12) | [req-pom3a.md](req-pom3a.md) |
-| health | open-source health forecasting | `hpo/Health-ClosedIssues0000.csv` (10,000 × 8) | [req-health.md](req-health.md) |
-| hr     | staff retention office | `behavior_data/WA_Fn-UseC_-HR-Employee-Attrition.csv` (1,470 × 35) | [req-hr.md](req-hr.md) |
-| nasa   | NASA project estimation office | `process/nasa93dem.csv` (93 × 29) | [req-nasa.md](req-nasa.md) |
-| readmit | hospital readmissions team | `health_data/Medical_Data_and_Hospital_Readmissions.csv` (25,000 × 65) | [req-readmit.md](req-readmit.md) |
-| commits | open-source commit forecasting | `hpo/Health-Commits0000.csv` (10,000 × 8) | [req-commits.md](req-commits.md) |
+| pom3a  | agile delivery office | `process/pom3a.csv` (20,000 × 12) | [requirements_pom3a.md](requirements_pom3a.md) |
+| health | open-source health forecasting | `hpo/Health-ClosedIssues0000.csv` (10,000 × 8) | [requirements_health.md](requirements_health.md) |
+| hr     | staff retention office | `behavior_data/WA_Fn-UseC_-HR-Employee-Attrition.csv` (1,470 × 35) | [requirements_hr.md](requirements_hr.md) |
+| nasa   | NASA project estimation office | `process/nasa93dem.csv` (93 × 29) | [requirements_nasa.md](requirements_nasa.md) |
+| readmit | hospital readmissions team | `health_data/Medical_Data_and_Hospital_Readmissions.csv` (25,000 × 65) | [requirements_readmit.md](requirements_readmit.md) |
+| commits | open-source commit forecasting | `hpo/Health-Commits0000.csv` (10,000 × 8) | [requirements_commits.md](requirements_commits.md) |
 
 Skills per ask (the same in every domain):
 
@@ -31,9 +31,22 @@ Skills per ask (the same in every domain):
 | 9, 19 | spot |
 | 10, 20 | race |
 
-The gproj rubric asks for three domains. Pick which three to submit
-(the other three can be extra transfer evidence). Note that `commits`
-uses the same knobs as `health`, so the two together risk counting as
-"one domain wearing two hats".
+## Submitted domains
+
+**pom3a, health and hr** are the three submitted domains, the three
+pre-registered at `step0`. nasa, readmit and commits are extra transfer
+evidence. (`commits` uses the same knobs as `health`, so it is not
+counted as a new domain.)
+
+## Baseline and change control
+
+- **`step0` (Nov 6):** the first three requirement docs, before any
+  code. At that tag they were named `docs/req-<domain>.md`; they were
+  renamed to `docs/requirements_<domain>.md` on Nov 9, with no change
+  to the text.
+- **Nov 8 amendment (wording only, every skill tag unchanged):**
+  pom3a ask 1, hr asks 2, 8 and 18. Each doc ends with a note saying
+  what changed and why. The `step0` wording is still at that tag:
+  `git show step0:docs/req-hr.md`.
 
 Status: awaiting the lecturer's OK.

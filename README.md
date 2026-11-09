@@ -5,7 +5,7 @@ plain-Python library (`ezl/`, standard library only), run on six
 MOOT data sets. Does each new skill need less new code than the last?
 
 - Requirements (6 domains × 20 asks): [docs/requirements.md](docs/requirements.md)
-- Pre-registered claim (tag `step0`, before any code): [docs/claim.md](docs/claim.md)
+- Pre-registered claim (tag `step0`, before any code): [docs/hypotheses.md](docs/hypotheses.md)
 - Nov 9 initial deliverable, one page: [docs/nov9.md](docs/nov9.md)
 - Test report (every tag, every domain, 5 seeds): [docs/test-report.md](docs/test-report.md)
 
