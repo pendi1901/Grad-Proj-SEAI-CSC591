@@ -49,7 +49,7 @@ one shared codebase.
   number columns; the goals are years at the company, in the current
   role, and with the current manager.
 
-## 2. Requirements (3 domains × 20 asks, waiting for the lecturer's OK)
+## 2. Requirements (3 domains × 20 asks)
 
 `docs/requirements_pom3a.md`, `docs/requirements_health.md` and
 `docs/requirements_hr.md` each list 20 asks in the client's own words,
@@ -111,12 +111,3 @@ Errors found and fixed so far:
 
 So far the code was written with Claude Code, not by hand, so this build
 is not yet a human-only treatment 7.
-
-## 5. Next steps (to Nov 30)
-
-- Run LLM treatments 1–6, with a headless `claude -p` call and a fresh
-  folder per trial, so nothing carries over between trials. We need at
-  least 3 runs per treatment, and are aiming for 10.
-- Build `same` tables for each domain.
-- Tune the chooser.
-- Write the report.
